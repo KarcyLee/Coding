@@ -52,6 +52,11 @@
             <artifactId>commons-math3</artifactId>
             <version>3.6.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.yannrichet</groupId>
+            <artifactId>jmatharray</artifactId>
+            <version>1.0</version>
+        </dependency>
 
 
     </dependencies>

@@ -55,11 +55,13 @@ public class GMM implements Serializable, Cloneable{
             double[] weights= new double[K];
             double[][] means= new double[K][V];
             double[][][] covariances= new double[K][V][V];
+
             // check if the the initial assignments file exists
             HashMap<Integer,ArrayList<ArrayList<Double>>> topicWiseAssignments= new HashMap<Integer, ArrayList<ArrayList<Double>>>();
             for(int k=0; k<K; k++){
                 topicWiseAssignments.put(k,new ArrayList<ArrayList<Double>>());
             }
+
             //double[] phiSum= new double[K];
             for(int d=0; d<data.length; d++){
                 double[] probVector= new double[K];
@@ -68,7 +70,7 @@ public class GMM implements Serializable, Cloneable{
                     probVector[k]= (double)1/K;
                 // randomly sample a topic for current doc
 
-                //int topic= Utilities.sampleFromDistribution(probVector);
+                int topic= Utils.sampleFromDistribution(probVector);
                 int topic = 10; ////karcy
 
                 // fill the topicWiseAssignments
@@ -109,8 +111,9 @@ public class GMM implements Serializable, Cloneable{
                         currAssignments[n][v]= topicWiseAssignments.get(k).get(n).get(v);
                     }
                 }
-                means[k]= Utilities.mean(currAssignments, 1);
+                means[k]= Utils.mean(currAssignments, 1);
                 covariances[k]= new Covariance(currAssignments).getCovarianceMatrix().getData();
+                //Utilities.printArrayToFile(covariances[k], "C:\\Prasanth\\Studies\\ASU\\CUbiC_Research\\AnnotatedDatasets\\AVEC2012\\TopicModels\\M.txt");
                 //Utilities.printArrayToFile(covariances[k], "C:\\Prasanth\\Studies\\ASU\\CUbiC_Research\\AnnotatedDatasets\\AVEC2012\\TopicModels\\M.txt");
                 // check if the covariance is singular if so add some noise
                 for(int j=0; j<data[0].length; j++)
