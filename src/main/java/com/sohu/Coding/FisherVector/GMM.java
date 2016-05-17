@@ -5,6 +5,7 @@ import com.sohu.Coding.Tools.Tools;
 import org.apache.commons.math3.distribution.MixtureMultivariateNormalDistribution;
 import org.apache.commons.math3.distribution.MultivariateNormalDistribution;
 import org.apache.commons.math3.distribution.fitting.MultivariateNormalMixtureExpectationMaximization;
+import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.stat.correlation.Covariance;
 import org.apache.commons.math3.util.Pair;
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by pengli211286 on 2016/5/16.
@@ -28,10 +30,8 @@ public class GMM implements Serializable, Cloneable{
     double[][] data;
     String mPath;
     String mName;
-    double[][] mixtureCoeffs;
-
-    //EM gmmModel;
     MixtureMultivariateNormalDistribution gmmModel;
+    //EM gmmModel;
 
     public GMM(double[][] data, int numClusters, int iters, String modelPath, String modelName ){
         K= numClusters;
@@ -48,6 +48,40 @@ public class GMM implements Serializable, Cloneable{
         mName= modelName;
         gmmModel= trainingModel.gmmModel;
     }
+
+    public double[] getWeights() {
+        List<Pair<Double, MultivariateNormalDistribution>> distributions= gmmModel.getComponents();
+        int length = distributions.size();
+        assert (length == K);
+        double [] weights = new double[K];
+        for(int i = 0; i < K; ++ i){
+            weights[i] = distributions.get(i).getFirst();
+        }
+        return weights;
+    }
+
+    public List<double[]> getMeans() {
+        List<Pair<Double, MultivariateNormalDistribution>> distributions= gmmModel.getComponents();
+        int length = distributions.size();
+        assert (length == K);
+        List<double[]> Means = new ArrayList<double[]>();
+        for(int i = 0; i < K; ++ i){
+            Means.add( distributions.get(i).getSecond().getMeans() );
+        }
+        return Means;
+    }
+
+    public List<RealMatrix> getCovariance() {
+        List<Pair<Double, MultivariateNormalDistribution>> distributions= gmmModel.getComponents();
+        int length = distributions.size();
+        assert (length == K);
+        List<RealMatrix> Covariance = new ArrayList<RealMatrix>() ;
+        for(int i = 0; i < K; ++ i){
+            Covariance.add( distributions.get(i).getSecond().getCovariances() );
+        }
+        return Covariance;
+    }
+
 
     public void runEM(){
         try{
@@ -114,21 +148,6 @@ public class GMM implements Serializable, Cloneable{
             gmmModel= gmm.getFittedModel();
             logger.info("Done Building GMM Model");
 
-            List<Pair<Double, MultivariateNormalDistribution>> distributions= gmmModel.getComponents();
-            mixtureCoeffs= new double[data.length][K];
-            for(int d = 0; d < data.length; ++ d){
-                double sum = 0;
-                for(int k = 0; k < K; ++ k){
-                    mixtureCoeffs[d][k] = distributions.get(k).getFirst() * distributions.get(k).getSecond().density(data[d]);
-                    sum += mixtureCoeffs[d][k];
-                }
-                for(int k = 0; k < K; ++ k){
-                    mixtureCoeffs[d][k] /= sum;
-                }
-                Tools.printArray("", mixtureCoeffs[d]);
-            }
-
-
 
 			/*System.out.println("Building GMM Model");
 
@@ -167,25 +186,6 @@ public class GMM implements Serializable, Cloneable{
 
     }
 
-    public void infer() throws Exception {
-
-        data= Tools.normalizeFeatures(data);
-        List<Pair<Double, MultivariateNormalDistribution>> distributions= gmmModel.getComponents();
-        mixtureCoeffs= new double[data.length][K];
-        for(int d=0; d<data.length;d++){
-            for(int k=0; k<K; k++){
-                mixtureCoeffs[d][k]= distributions.get(k).getSecond().density(data[d]);
-            }
-            //Utilities.printArray("", mixtureCoeffs[d]);
-            //System.out.println((Utilities.max(mixtureCoeffs[d], 1)[0]+1));
-        }
-
-    }
-
-    public double[][] getMixCoeffs(){
-        return mixtureCoeffs;
-    }
-
 	/*public EM getGMMModel(){
 		return gmmModel;
 	}*/
@@ -196,18 +196,24 @@ public class GMM implements Serializable, Cloneable{
 
     public void cleanUpVariables(){
         data= null;
-        mixtureCoeffs= null;
     }
 
     public static void main(String[] args) throws Exception {
-        String[][] tokens= Tools.readCSVFile("C:\\Prasanth\\Studies\\ASU\\CUbiC_Research\\MyResearch\\Software\\VariationBayesForGMMMatlab\\data.csv", true);
-        double[][] data= new double[tokens.length][tokens[0].length];
-        for(int i=0; i<tokens.length;i++)
-            for(int j=0; j<tokens[0].length;j++){
-                data[i][j]= Double.parseDouble(tokens[i][j]);
+        Random rd = new Random();
+        int nRow = 20000;
+        int nCol = 200;
+        double[][] data= new double[nRow][nCol];
+        for(int i = 0; i < nRow;++i ){
+            for(int j = 0; j < nCol; ++j ){
+                data[i][j] = rd.nextDouble();
+                //System.out.println(data[i][j]);
             }
-        GMM gmm= new GMM(data, 3, 100,"C:\\Prasanth\\Studies\\ASU\\CUbiC_Research\\MyResearch\\Software\\VariationBayesForGMMMatlab","GMMModel");
+        }
+        logger.info("数据完毕 ");
+        GMM gmm= new GMM(data, 100, 100,"./model","GMMModel");
         gmm.runEM();
+
+        logger.info("训练完毕 ");
     }
 
 }
