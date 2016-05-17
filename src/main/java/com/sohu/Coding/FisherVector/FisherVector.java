@@ -1,4 +1,4 @@
-package FisherVector;
+package com.sohu.Coding.FisherVector;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,14 +1,14 @@
-package FisherVector;
+package com.sohu.Coding.FisherVector;
 
 
+import com.sohu.Coding.Tools.Tools;
 import org.apache.commons.math3.distribution.MixtureMultivariateNormalDistribution;
+import org.apache.commons.math3.distribution.MultivariateNormalDistribution;
 import org.apache.commons.math3.distribution.fitting.MultivariateNormalMixtureExpectationMaximization;
 import org.apache.commons.math3.stat.correlation.Covariance;
 import org.apache.commons.math3.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.commons.math3.distribution.MultivariateNormalDistribution;
-import weka.clusterers.EM;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,12 +22,14 @@ import java.util.List;
 public class GMM implements Serializable, Cloneable{
     private static Logger logger = LoggerFactory.getLogger(GMM.class);
 
-    int K;
+
+    int K; //聚类中心(Topic)数目
     int maxIters;
     double[][] data;
     String mPath;
     String mName;
     double[][] mixtureCoeffs;
+
     //EM gmmModel;
     MixtureMultivariateNormalDistribution gmmModel;
 
@@ -50,7 +52,7 @@ public class GMM implements Serializable, Cloneable{
     public void runEM(){
         try{
             //数据归一化
-            //data= Utilities.normalizeFeatures(data);
+            data= Tools.normalizeFeatures(data);
             int V= data[0].length;
             double[] weights= new double[K];
             double[][] means= new double[K][V];
@@ -58,52 +60,37 @@ public class GMM implements Serializable, Cloneable{
 
             // check if the the initial assignments file exists
             HashMap<Integer,ArrayList<ArrayList<Double>>> topicWiseAssignments= new HashMap<Integer, ArrayList<ArrayList<Double>>>();
-            for(int k=0; k<K; k++){
+            for(int k = 0; k < K; ++ k){
                 topicWiseAssignments.put(k,new ArrayList<ArrayList<Double>>());
             }
-
-            //double[] phiSum= new double[K];
-            for(int d=0; d<data.length; d++){
+            for(int d = 0; d < data.length; d ++){
                 double[] probVector= new double[K];
                 // for each doc create a prob vector with equal probabilities to all topics
-                for(int k=0; k<K; k++)
-                    probVector[k]= (double)1/K;
+                for(int k = 0; k < K; k++)
+                    probVector[k]= (double) 1 / K;
                 // randomly sample a topic for current doc
-
-                int topic= Utils.sampleFromDistribution(probVector);
-                int topic = 10; ////karcy
-
+                int topic= Tools.sampleFromDistribution(probVector);
                 // fill the topicWiseAssignments
-                if(topicWiseAssignments.isEmpty()){
+                {
                     ArrayList<Double> temp= new ArrayList<Double>();
                     for(double val:data[d])
                         temp.add(val);
-                    ArrayList<ArrayList<Double>> temp1= new ArrayList<ArrayList<Double>>();
-                    temp1.add(temp);
-                    topicWiseAssignments.put(topic,temp1);
-                }
-                else{
-                    if(topicWiseAssignments.get(topic)==null){
-                        ArrayList<Double> temp= new ArrayList<Double>();
-                        for(double val:data[d])
-                            temp.add(val);
+                    if(topicWiseAssignments.isEmpty() || topicWiseAssignments.get(topic)==null ){
                         ArrayList<ArrayList<Double>> temp1= new ArrayList<ArrayList<Double>>();
                         temp1.add(temp);
                         topicWiseAssignments.put(topic,temp1);
-                    }
-                    else{
-                        ArrayList<Double> temp= new ArrayList<Double>();
-                        for(double val:data[d])
-                            temp.add(val);
-                        ArrayList<ArrayList<Double>> temp1= topicWiseAssignments.get(topic);
-                        temp1.add(temp);
-                        topicWiseAssignments.put(topic,temp1);
+                    }else{
+                        //ArrayList<ArrayList<Double>> temp1= topicWiseAssignments.get(topic);
+                        //temp1.add(temp);
+                        //topicWiseAssignments.put(topic,temp1);
+                        topicWiseAssignments.get(topic).add(temp);
                     }
                 }
             }
+
             // use the topic assignments to calculate the means and variances
             for(int k=0; k< K; k++){
-                weights[k]= ((double)topicWiseAssignments.get(k).size())/(double)data.length;
+                weights[k]= ((double)topicWiseAssignments.get(k).size()) / (double)data.length;
                 double[][] currAssignments= new double[topicWiseAssignments.get(k).size()][V];
                 //System.out.println(topicWiseAssignments.get(k));
                 for(int n=0; n<topicWiseAssignments.get(k).size(); n++){
@@ -111,74 +98,40 @@ public class GMM implements Serializable, Cloneable{
                         currAssignments[n][v]= topicWiseAssignments.get(k).get(n).get(v);
                     }
                 }
-                means[k]= Utils.mean(currAssignments, 1);
+
+                means[k]= Tools.mean(currAssignments, 1);
                 covariances[k]= new Covariance(currAssignments).getCovarianceMatrix().getData();
-                //Utilities.printArrayToFile(covariances[k], "C:\\Prasanth\\Studies\\ASU\\CUbiC_Research\\AnnotatedDatasets\\AVEC2012\\TopicModels\\M.txt");
-                //Utilities.printArrayToFile(covariances[k], "C:\\Prasanth\\Studies\\ASU\\CUbiC_Research\\AnnotatedDatasets\\AVEC2012\\TopicModels\\M.txt");
+
                 // check if the covariance is singular if so add some noise
                 for(int j=0; j<data[0].length; j++)
-                    covariances[k][j][j]+=Math.random()/10000;
-				/*double[][] temp= Utilities.matrixInverse(covariances[k]);
-				while(Utilities.containsInfinity(temp) || Utilities.containsNaN(temp)){
-					System.out.println("Infinity or Nan in Covariance Inverse");
-					for(int j=0; j<data[0].length; j++)
-						covariances[k][j][j]+=Math.random()/10000;
-					temp= Utilities.matrixInverse(covariances[k]);
-				}*/
-                //System.out.println("Topic: "+k+": "+currAssignments);
-                //topicPrecisions[k]= Utilities.precision(currAssignments);
+                    covariances[k][j][j] += Math.random()/10000;
             }
-            MultivariateNormalMixtureExpectationMaximization gmm= new MultivariateNormalMixtureExpectationMaximization(data);
 
+            ////GMM 聚类
+            logger.info("Building GMM Model...");
+            MultivariateNormalMixtureExpectationMaximization gmm= new MultivariateNormalMixtureExpectationMaximization(data);
             gmm.fit(new MixtureMultivariateNormalDistribution(weights, means, covariances),maxIters,1E-5);
             gmmModel= gmm.getFittedModel();
+            logger.info("Done Building GMM Model");
+
             List<Pair<Double, MultivariateNormalDistribution>> distributions= gmmModel.getComponents();
             mixtureCoeffs= new double[data.length][K];
-            for(int d=0; d<data.length;d++){
-                double sum=0;
-                for(int k=0; k<K; k++){
-                    mixtureCoeffs[d][k]= distributions.get(k).getFirst()*distributions.get(k).getSecond().density(data[d]);
-                    sum+= mixtureCoeffs[d][k];
+            for(int d = 0; d < data.length; ++ d){
+                double sum = 0;
+                for(int k = 0; k < K; ++ k){
+                    mixtureCoeffs[d][k] = distributions.get(k).getFirst() * distributions.get(k).getSecond().density(data[d]);
+                    sum += mixtureCoeffs[d][k];
                 }
-                for(int k=0; k<K; k++){
-                    mixtureCoeffs[d][k]/= sum;
+                for(int k = 0; k < K; ++ k){
+                    mixtureCoeffs[d][k] /= sum;
                 }
-                Utilities.printArray("", mixtureCoeffs[d]);
-                //System.out.println((Utilities.max(mixtureCoeffs[d], 1)[0]+1));
+                Tools.printArray("", mixtureCoeffs[d]);
             }
+
+
+
 			/*System.out.println("Building GMM Model");
-			String trainingFilePath= mPath+"//"+mName+"TrainingFile.csv";
-			PrintWriter trainCSVFile= new PrintWriter(new File(trainingFilePath)) ;
-			// write the features to csv file
-			for(int i=0; i<data[0].length; i++){
-				trainCSVFile.print("Feature"+(i+1));
-				if(i<data[0].length-1)
-					trainCSVFile.print(",");
-			}
-			trainCSVFile.println();
-			for(int i=0; i<data.length; i++){
-				for(int j=0; j<data[0].length; j++){
-					trainCSVFile.print(data[i][j]);
-					if(j<data[0].length-1)
-						trainCSVFile.print(",");
-				}
-				trainCSVFile.println();
-			}
-			trainCSVFile.close();
-			CSVLoader loader= new CSVLoader();
-			loader.setFile(new File(trainingFilePath));
-			Instances unnormalizedInstances= loader.getDataSet();
-			Normalize normalizeFilter= new Normalize();
-			normalizeFilter.setInputFormat(unnormalizedInstances);
-			for(int i=0; i< unnormalizedInstances.numInstances(); i++)
-				normalizeFilter.input(unnormalizedInstances.get(i));
-			normalizeFilter.batchFinished();
-			Instances trainingInstances= normalizeFilter.getOutputFormat();
-			Instance processed;
-			while ((processed = normalizeFilter.output()) != null) {
-				trainingInstances.add(processed);
-			}
-			Utilities.printArray("First Instance",trainingInstances.get(0).toDoubleArray());
+
 			// train using EM clustering algorithm
 			gmmModel = new EM();
 			gmmModel.setMaxIterations(maxIters);
@@ -205,21 +158,18 @@ public class GMM implements Serializable, Cloneable{
 				//System.out.println((Utilities.max(mixtureCoeffs[count], 1)[0]+1));
 				count++;
 			}
-			// delete csv file
-			new File(trainingFilePath).delete();*/
+			*/
+
+        } catch(Exception e){
+            logger.error("Exception caugt in GMM model training",e);
+            System.exit(1);
         }
-        catch(Exception e){
-            System.err.println("Exception caugt in GMM model training");
-            //System.out.println(trainingFilePath);
-            //System.out.println(trainingModelFilePath);
-            e.printStackTrace();
-            System.exit(1);}
 
     }
 
     public void infer() throws Exception {
 
-        data= Utilities.normalizeFeatures(data);
+        data= Tools.normalizeFeatures(data);
         List<Pair<Double, MultivariateNormalDistribution>> distributions= gmmModel.getComponents();
         mixtureCoeffs= new double[data.length][K];
         for(int d=0; d<data.length;d++){
@@ -250,7 +200,7 @@ public class GMM implements Serializable, Cloneable{
     }
 
     public static void main(String[] args) throws Exception {
-        String[][] tokens= Utilities.readCSVFile("C:\\Prasanth\\Studies\\ASU\\CUbiC_Research\\MyResearch\\Software\\VariationBayesForGMMMatlab\\data.csv", true);
+        String[][] tokens= Tools.readCSVFile("C:\\Prasanth\\Studies\\ASU\\CUbiC_Research\\MyResearch\\Software\\VariationBayesForGMMMatlab\\data.csv", true);
         double[][] data= new double[tokens.length][tokens[0].length];
         for(int i=0; i<tokens.length;i++)
             for(int j=0; j<tokens[0].length;j++){

@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b8112e1d-985b-42da-813c-6763150ba774" name="Default" comment="" />
+    <list default="true" id="b8112e1d-985b-42da-813c-6763150ba774" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/Utils.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Coding.iml" afterPath="$PROJECT_DIR$/Coding.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/FisherVector/FisherVector.java" afterPath="$PROJECT_DIR$/src/main/java/com/sohu/Coding/FisherVector/FisherVector.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/FisherVector/GMM.java" afterPath="$PROJECT_DIR$/src/main/java/com/sohu/Coding/FisherVector/GMM.java" />
+    </list>
     <ignored path="Coding.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -23,19 +30,19 @@
     <favorites_list name="Coding" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+            <state relative-caret-position="495">
+              <caret line="60" column="21" selection-start-line="60" selection-start-column="21" selection-end-line="60" selection-end-column="21" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="FisherVector.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/FisherVector/FisherVector.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/sohu/Coding/FisherVector/FisherVector.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="363">
               <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
@@ -46,44 +53,94 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GMM.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/FisherVector/GMM.java">
+      <file leaf-file-name="GMM.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/sohu/Coding/FisherVector/GMM.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="426">
-              <caret line="111" column="40" selection-start-line="111" selection-start-column="40" selection-end-line="111" selection-end-column="40" />
+            <state relative-caret-position="649">
+              <caret line="33" column="41" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="41" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1899#1938#0" expanded="true" />
-                <element signature="e#2731#2739#0" expanded="true" />
-                <element signature="e#2895#2914#0" expanded="true" />
-                <element signature="e#3178#3186#0" expanded="true" />
-                <element signature="e#3354#3373#0" expanded="true" />
-                <element signature="e#3590#3598#0" expanded="true" />
-                <element signature="e#9903#9904#0" expanded="true" />
-                <element signature="e#9939#9940#0" expanded="true" />
-                <element signature="e#10057#10058#0" expanded="true" />
-                <element signature="e#10088#10089#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Utils.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Utils.java">
+      <file leaf-file-name="Tools.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/sohu/Coding/Tools/Tools.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="99">
-              <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EM.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/nz/ac/waikato/cms/weka/weka-dev/3.9.0/weka-dev-3.9.0.jar!/weka/clusterers/EM.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="99">
-              <caret line="153" column="33" selection-start-line="153" selection-start-column="33" selection-end-line="153" selection-end-column="33" />
-              <folding />
+            <state relative-caret-position="431">
+              <caret line="1006" column="29" selection-start-line="1006" selection-start-column="25" selection-end-line="1006" selection-end-column="29" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#argmax#0;class#Tools#0" expanded="false" />
+                <element signature="method#assignNearestCluster#0;class#Tools#0" expanded="false" />
+                <element signature="method#calculateAccuracy#0;class#Tools#0" expanded="false" />
+                <element signature="method#calculateAccuracy#1;class#Tools#0" expanded="false" />
+                <element signature="method#calculatePrecision#0;class#Tools#0" expanded="false" />
+                <element signature="method#calculateBin#0;class#Tools#0" expanded="false" />
+                <element signature="method#calculateCosineDistance#0;class#Tools#0" expanded="false" />
+                <element signature="method#calculateCrossCorrelation#0;class#Tools#0" expanded="false" />
+                <element signature="method#calculateKLDivergence#0;class#Tools#0" expanded="false" />
+                <element signature="method#calculateMahattanDistance#0;class#Tools#0" expanded="false" />
+                <element signature="method#calculateWeightedCosineDistance#0;class#Tools#0" expanded="false" />
+                <element signature="method#calculateQuartiles#0;class#Tools#0" expanded="false" />
+                <element signature="method#calculateRSquared#0;class#Tools#0" expanded="false" />
+                <element signature="method#calculateMeanAbsoluteError#0;class#Tools#0" expanded="false" />
+                <element signature="method#choleskyDecomposition#0;class#Tools#0" expanded="false" />
+                <element signature="method#concatArrays#0;class#Tools#0" expanded="false" />
+                <element signature="method#containsInfinity#0;class#Tools#0" expanded="false" />
+                <element signature="method#containsInfinity#1;class#Tools#0" expanded="false" />
+                <element signature="method#containsNaN#0;class#Tools#0" expanded="false" />
+                <element signature="method#containsNaN#1;class#Tools#0" expanded="false" />
+                <element signature="method#containsZero#0;class#Tools#0" expanded="false" />
+                <element signature="method#containsNegative#0;class#Tools#0" expanded="false" />
+                <element signature="method#getDiagonal#0;class#Tools#0" expanded="false" />
+                <element signature="method#digamma#0;class#Tools#0" expanded="false" />
+                <element signature="method#eye#0;class#Tools#0" expanded="false" />
+                <element signature="method#Gamma#0;class#Tools#0" expanded="false" />
+                <element signature="method#LogGamma#0;class#Tools#0" expanded="false" />
+                <element signature="method#generateConfusionMatrix#0;class#Tools#0" expanded="false" />
+                <element signature="method#generateRandomString#0;class#Tools#0" expanded="false" />
+                <element signature="method#log#0;class#Tools#0" expanded="false" />
+                <element signature="method#logmvgamma#0;class#Tools#0" expanded="false" />
+                <element signature="method#log_sum#0;class#Tools#0" expanded="false" />
+                <element signature="method#logNormalDens#0;class#Tools#0" expanded="false" />
+                <element signature="method#matrixMultiply#0;class#Tools#0" expanded="false" />
+                <element signature="method#matrixInverse#0;class#Tools#0" expanded="false" />
+                <element signature="method#matrixTranspose#0;class#Tools#0" expanded="false" />
+                <element signature="method#max#0;class#Tools#0" expanded="false" />
+                <element signature="method#max#1;class#Tools#0" expanded="false" />
+                <element signature="method#mean#0;class#Tools#0" expanded="false" />
+                <element signature="method#mean#1;class#Tools#0" expanded="false" />
+                <element signature="method#mean#2;class#Tools#0" expanded="false" />
+                <element signature="method#min#0;class#Tools#0" expanded="false" />
+                <element signature="method#min#1;class#Tools#0" expanded="false" />
+                <element signature="method#min#2;class#Tools#0" expanded="false" />
+                <element signature="method#normalize#0;class#Tools#0" expanded="false" />
+                <element signature="method#normalizeFeatures#0;class#Tools#0" expanded="false" />
+                <element signature="method#normalPDF#0;class#Tools#0" expanded="false" />
+                <element signature="method#precision#0;class#Tools#0" expanded="false" />
+                <element signature="method#printArray#0;class#Tools#0" expanded="false" />
+                <element signature="method#printArray#1;class#Tools#0" expanded="false" />
+                <element signature="method#printArrayToFile#0;class#Tools#0" expanded="false" />
+                <element signature="method#printArray#2;class#Tools#0" expanded="false" />
+                <element signature="method#printArray#3;class#Tools#0" expanded="false" />
+                <element signature="method#printArray#5;class#Tools#0" expanded="false" />
+                <element signature="method#readCSVFile#0;class#Tools#0" expanded="false" />
+                <element signature="method#rmsError#0;class#Tools#0" expanded="false" />
+                <element signature="method#sampleFromDistribution#0;class#Tools#0" expanded="false" />
+                <element signature="method#scaleData#0;class#Tools#0" expanded="false" />
+                <element signature="method#scaleData#1;class#Tools#0" expanded="false" />
+                <element signature="method#sqrt#0;class#Tools#0" expanded="false" />
+                <element signature="method#stddeviation#0;class#Tools#0" expanded="false" />
+                <element signature="method#variance#0;class#Tools#0" expanded="false" />
+                <element signature="method#sum#0;class#Tools#0" expanded="false" />
+                <element signature="method#sum#1;class#Tools#0" expanded="false" />
+                <element signature="method#variance#1;class#Tools#0" expanded="false" />
+                <element signature="method#weightedMean#0;class#Tools#0" expanded="false" />
+                <element signature="method#vectorQuantizeUsingBinning#0;class#Tools#0" expanded="false" />
+                <element signature="method#writeCSVFile#0;class#Tools#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -97,6 +154,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="GradleLocalSettings">
     <option name="externalProjectsViewState">
       <projects_view />
@@ -107,8 +167,11 @@
       <list>
         <option value="$PROJECT_DIR$/src/main/java/FisherVector/FisherVector.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/FisherVector/GMM.java" />
         <option value="$PROJECT_DIR$/src/main/java/Utils.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Tools/Utils.java" />
+        <option value="$PROJECT_DIR$/src/main/java/FisherVector/GMM.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/sohu/Coding/Tools/Tools.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/sohu/Coding/FisherVector/GMM.java" />
       </list>
     </option>
   </component>
@@ -125,8 +188,7 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
+    <option name="x" value="8" />
     <option name="width" value="1696" />
     <option name="height" value="1026" />
   </component>
@@ -137,7 +199,7 @@
     <OptionsSetting value="true" id="Update" />
     <OptionsSetting value="true" id="Status" />
     <OptionsSetting value="true" id="Edit" />
-    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="1" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectView">
@@ -146,7 +208,7 @@
       <showMembers />
       <showModules />
       <showLibraryContents />
-      <hideEmptyPackages />
+      <hideEmptyPackages ProjectPane="false" />
       <abbreviatePackageNames />
       <autoscrollToSource />
       <autoscrollFromSource />
@@ -155,7 +217,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -163,76 +227,6 @@
               <option name="myItemId" value="Coding" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Coding" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Maven: nz.ac.waikato.cms.weka:weka-dev:3.9.0" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="weka-dev-3.9.0.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="weka" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Coding" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Maven: nz.ac.waikato.cms.weka:weka-dev:3.9.0" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="weka-dev-3.9.0.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="weka" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="clusterers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Coding" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Maven: nz.ac.waikato.cms.weka:weka-dev:3.9.0" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="weka-dev-3.9.0.jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -297,6 +291,22 @@
               <option name="myItemId" value="java" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sohu" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Coding" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Tools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -317,6 +327,18 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sohu" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Coding" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -326,8 +348,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -336,10 +356,13 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/pom.xml" />
     <property name="findjar.last.used.dir" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\OwnGit\Coding\src\main\java\com\sohu\Coding" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\OwnGit\Coding\src\main\resources" />
     </key>
@@ -559,6 +582,7 @@
       <setting name="cmdLine" value="run-app" />
       <setting name="passParentEnv" value="true" />
       <setting name="launchBrowser" value="true" />
+      <setting name="depsClasspath" value="false" />
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <method />
     </configuration>
@@ -757,6 +781,12 @@
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
@@ -817,47 +847,50 @@
       <option name="presentableId" value="Default" />
       <updated>1463385857973</updated>
       <workItem from="1463385861504" duration="6427000" />
+      <workItem from="1463448440005" duration="6796000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6427000" />
+    <option name="totallyTimeSpent" value="13223000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
+    <frame x="8" y="0" width="1696" height="1026" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="7" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="antWorkspaceConfiguration">
@@ -865,9 +898,17 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/FisherVector/FisherVector.java">
+    <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
+        <state relative-caret-position="1551">
+          <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sohu/Coding/FisherVector/FisherVector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
           <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -875,27 +916,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sohu/Coding/FisherVector/GMM.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+        <state relative-caret-position="3267">
+          <caret line="111" column="40" selection-start-line="111" selection-start-column="40" selection-end-line="111" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-math3/3.6.1/commons-math3-3.6.1.jar!/org/apache/commons/math3/distribution/MultivariateNormalDistribution.class">
+    <entry file="jar://$MAVEN_REPOSITORY$/nz/ac/waikato/cms/weka/weka-dev/3.9.0/weka-dev-3.9.0.jar!/weka/clusterers/EM.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="84" column="46" selection-start-line="84" selection-start-column="45" selection-end-line="84" selection-end-column="46" />
-          <folding>
-            <element signature="method#MultivariateNormalDistribution#0;class#MultivariateNormalDistribution#0" expanded="false" />
-            <element signature="method#MultivariateNormalDistribution#1;class#MultivariateNormalDistribution#0" expanded="false" />
-            <element signature="e#3525#3526#0" expanded="true" />
-            <element signature="e#3577#3578#0" expanded="true" />
-            <element signature="method#density#0;class#MultivariateNormalDistribution#0" expanded="false" />
-            <element signature="method#getStandardDeviations#0;class#MultivariateNormalDistribution#0" expanded="false" />
-            <element signature="method#sample#0;class#MultivariateNormalDistribution#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="3960">
+          <caret line="153" column="33" selection-start-line="153" selection-start-column="33" selection-end-line="153" selection-end-column="33" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -911,9 +954,40 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="396">
           <caret line="26" column="29" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sohu/Coding/Tools/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4122">
+          <caret line="825" column="61" selection-start-line="0" selection-start-column="0" selection-end-line="1425" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="60" column="21" selection-start-line="60" selection-start-column="21" selection-end-line="60" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_77/src.zip!/java/lang/String.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="428">
+          <caret line="631" column="7" selection-start-line="631" selection-start-column="7" selection-end-line="631" selection-end-column="17" />
           <folding>
-            <element signature="e#868#869#0" expanded="true" />
-            <element signature="e#905#906#0" expanded="true" />
+            <element signature="e#23072#23073#0" expanded="true" />
+            <element signature="e#23112#23113#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -926,31 +1000,138 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/FisherVector/GMM.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-math3/3.6.1/commons-math3-3.6.1.jar!/org/apache/commons/math3/distribution/MultivariateNormalDistribution.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="426">
-          <caret line="111" column="40" selection-start-line="111" selection-start-column="40" selection-end-line="111" selection-end-column="40" />
+        <state relative-caret-position="309">
+          <caret line="77" column="34" selection-start-line="77" selection-start-column="34" selection-end-line="77" selection-end-column="34" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1899#1938#0" expanded="true" />
-            <element signature="e#2731#2739#0" expanded="true" />
-            <element signature="e#2895#2914#0" expanded="true" />
-            <element signature="e#3178#3186#0" expanded="true" />
-            <element signature="e#3354#3373#0" expanded="true" />
-            <element signature="e#3590#3598#0" expanded="true" />
-            <element signature="e#9903#9904#0" expanded="true" />
-            <element signature="e#9939#9940#0" expanded="true" />
-            <element signature="e#10057#10058#0" expanded="true" />
-            <element signature="e#10088#10089#0" expanded="true" />
+            <element signature="e#3525#3526#0" expanded="true" />
+            <element signature="e#3577#3578#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Utils.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sohu/Coding/Tools/Tools.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="99">
-          <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
+        <state relative-caret-position="431">
+          <caret line="1006" column="29" selection-start-line="1006" selection-start-column="25" selection-end-line="1006" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#argmax#0;class#Tools#0" expanded="false" />
+            <element signature="method#assignNearestCluster#0;class#Tools#0" expanded="false" />
+            <element signature="method#calculateAccuracy#0;class#Tools#0" expanded="false" />
+            <element signature="method#calculateAccuracy#1;class#Tools#0" expanded="false" />
+            <element signature="method#calculatePrecision#0;class#Tools#0" expanded="false" />
+            <element signature="method#calculateBin#0;class#Tools#0" expanded="false" />
+            <element signature="method#calculateCosineDistance#0;class#Tools#0" expanded="false" />
+            <element signature="method#calculateCrossCorrelation#0;class#Tools#0" expanded="false" />
+            <element signature="method#calculateKLDivergence#0;class#Tools#0" expanded="false" />
+            <element signature="method#calculateMahattanDistance#0;class#Tools#0" expanded="false" />
+            <element signature="method#calculateWeightedCosineDistance#0;class#Tools#0" expanded="false" />
+            <element signature="method#calculateQuartiles#0;class#Tools#0" expanded="false" />
+            <element signature="method#calculateRSquared#0;class#Tools#0" expanded="false" />
+            <element signature="method#calculateMeanAbsoluteError#0;class#Tools#0" expanded="false" />
+            <element signature="method#choleskyDecomposition#0;class#Tools#0" expanded="false" />
+            <element signature="method#concatArrays#0;class#Tools#0" expanded="false" />
+            <element signature="method#containsInfinity#0;class#Tools#0" expanded="false" />
+            <element signature="method#containsInfinity#1;class#Tools#0" expanded="false" />
+            <element signature="method#containsNaN#0;class#Tools#0" expanded="false" />
+            <element signature="method#containsNaN#1;class#Tools#0" expanded="false" />
+            <element signature="method#containsZero#0;class#Tools#0" expanded="false" />
+            <element signature="method#containsNegative#0;class#Tools#0" expanded="false" />
+            <element signature="method#getDiagonal#0;class#Tools#0" expanded="false" />
+            <element signature="method#digamma#0;class#Tools#0" expanded="false" />
+            <element signature="method#eye#0;class#Tools#0" expanded="false" />
+            <element signature="method#Gamma#0;class#Tools#0" expanded="false" />
+            <element signature="method#LogGamma#0;class#Tools#0" expanded="false" />
+            <element signature="method#generateConfusionMatrix#0;class#Tools#0" expanded="false" />
+            <element signature="method#generateRandomString#0;class#Tools#0" expanded="false" />
+            <element signature="method#log#0;class#Tools#0" expanded="false" />
+            <element signature="method#logmvgamma#0;class#Tools#0" expanded="false" />
+            <element signature="method#log_sum#0;class#Tools#0" expanded="false" />
+            <element signature="method#logNormalDens#0;class#Tools#0" expanded="false" />
+            <element signature="method#matrixMultiply#0;class#Tools#0" expanded="false" />
+            <element signature="method#matrixInverse#0;class#Tools#0" expanded="false" />
+            <element signature="method#matrixTranspose#0;class#Tools#0" expanded="false" />
+            <element signature="method#max#0;class#Tools#0" expanded="false" />
+            <element signature="method#max#1;class#Tools#0" expanded="false" />
+            <element signature="method#mean#0;class#Tools#0" expanded="false" />
+            <element signature="method#mean#1;class#Tools#0" expanded="false" />
+            <element signature="method#mean#2;class#Tools#0" expanded="false" />
+            <element signature="method#min#0;class#Tools#0" expanded="false" />
+            <element signature="method#min#1;class#Tools#0" expanded="false" />
+            <element signature="method#min#2;class#Tools#0" expanded="false" />
+            <element signature="method#normalize#0;class#Tools#0" expanded="false" />
+            <element signature="method#normalizeFeatures#0;class#Tools#0" expanded="false" />
+            <element signature="method#normalPDF#0;class#Tools#0" expanded="false" />
+            <element signature="method#precision#0;class#Tools#0" expanded="false" />
+            <element signature="method#printArray#0;class#Tools#0" expanded="false" />
+            <element signature="method#printArray#1;class#Tools#0" expanded="false" />
+            <element signature="method#printArrayToFile#0;class#Tools#0" expanded="false" />
+            <element signature="method#printArray#2;class#Tools#0" expanded="false" />
+            <element signature="method#printArray#3;class#Tools#0" expanded="false" />
+            <element signature="method#printArray#5;class#Tools#0" expanded="false" />
+            <element signature="method#readCSVFile#0;class#Tools#0" expanded="false" />
+            <element signature="method#rmsError#0;class#Tools#0" expanded="false" />
+            <element signature="method#sampleFromDistribution#0;class#Tools#0" expanded="false" />
+            <element signature="method#scaleData#0;class#Tools#0" expanded="false" />
+            <element signature="method#scaleData#1;class#Tools#0" expanded="false" />
+            <element signature="method#sqrt#0;class#Tools#0" expanded="false" />
+            <element signature="method#stddeviation#0;class#Tools#0" expanded="false" />
+            <element signature="method#variance#0;class#Tools#0" expanded="false" />
+            <element signature="method#sum#0;class#Tools#0" expanded="false" />
+            <element signature="method#sum#1;class#Tools#0" expanded="false" />
+            <element signature="method#variance#1;class#Tools#0" expanded="false" />
+            <element signature="method#weightedMean#0;class#Tools#0" expanded="false" />
+            <element signature="method#vectorQuantizeUsingBinning#0;class#Tools#0" expanded="false" />
+            <element signature="method#writeCSVFile#0;class#Tools#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sohu/Coding/FisherVector/FisherVector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="363">
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-math3/3.6.1/commons-math3-3.6.1.jar!/org/apache/commons/math3/distribution/fitting/MultivariateNormalMixtureExpectationMaximization.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="30" column="49" selection-start-line="30" selection-start-column="12" selection-end-line="30" selection-end-column="49" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-math3/3.6.1/commons-math3-3.6.1.jar!/org/apache/commons/math3/distribution/MixtureMultivariateNormalDistribution.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="33" column="42" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/commons/commons-math3/3.6.1/commons-math3-3.6.1.jar!/org/apache/commons/math3/distribution/MixtureMultivariateRealDistribution.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-856">
+          <caret line="66" column="33" selection-start-line="66" selection-start-column="33" selection-end-line="66" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sohu/Coding/FisherVector/GMM.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="649">
+          <caret line="33" column="41" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
