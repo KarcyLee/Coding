@@ -38,6 +38,27 @@ public class Distance {
     public static double CosineDistance(double[] p1, double[] p2){
         return 1 - CosineSimilarity(p1,p2);
     }
+    public static double WeightedCosineDistance(double[] vector1, double[] vector2, double[] weights){
+        //1 - (sum(X1.*W*X2)/((sum(X1.*X1))^(1/2)*(sum(X2.*X2))^(1/2)))
+        double cosineDist=0;
+        double numerator=0, denominator1=0, denominator2=0;
+        for(int index=0; index < vector1.length; index++){
+            numerator= numerator + vector1[index]*vector2[index]*weights[index];
+        }
+        for(int index=0; index < vector1.length; index++){
+            denominator1= denominator1 + vector1[index]*vector1[index]*weights[index];
+        }
+        denominator1= Math.pow(denominator1, 0.5);
+        for(int index=0; index < vector2.length; index++){
+            denominator2= denominator2 + vector2[index]*vector2[index]*weights[index];
+        }
+        denominator2= Math.pow(denominator2, 0.5);
+        cosineDist= 1- (numerator/(denominator1*denominator2));
+        if(Double.isNaN(cosineDist))
+            cosineDist=1;
+        return cosineDist;
+    }
+
     public static double RBFDistance (double[] p1, double[] p2){
         return 1 - RBFSimilarity(p1,p2);
     }
@@ -67,6 +88,30 @@ public class Distance {
         return 1.0 - (sum / ((double) denom));
     }
 
+    //计算KL散度（相对熵）：当两个随机分布相同时，其相对熵为0.当两个随机分布的差别增加时，器相对熵也增加
+    public static double KLDivergence(double[] vector1, double[] vector2){
+        //(Kullback-Leibler Divergence）也叫做相对熵（Relative Entropy)
+        int numAttributes = vector1.length;
+        double klDivergence=0;
+        // formula for average KL divergence between two distributions is
+        // KLDivergence= sigma_i {p_i*log(p_i/*q_i)}
+        double p_i,q_i;
+        for(int i = 0; i < numAttributes; ++ i){
+            p_i = vector1[i];
+            q_i = vector2[i];
+            double firstLogTerm = 0.0;
+
+            if(p_i == 0)
+                p_i = 1E-10;
+            if(q_i == 0)
+                q_i = 1E-10;
+            firstLogTerm = Math.log(p_i / q_i) / Math.log(2);
+            klDivergence = klDivergence+ (p_i * firstLogTerm) ;
+        }
+        return klDivergence;
+    }
+
+
     public static double euclideanSimilarity(double[] p1, double[] p2){
         return 1.0 / (1 + euclideanDistance(p1,p2));
     }
@@ -79,7 +124,9 @@ public class Distance {
             sumOne += p1[i] * p1[i];
             sumTwo += p2[i] * p2[i];
         }
-        double cosSim = sumTop / (Math.sqrt(sumOne) * Math.sqrt(sumTwo));
+        double denominator = (Math.sqrt(sumOne) * Math.sqrt(sumTwo));
+        denominator = Math.max(1e-6,denominator);//防止除0
+        double cosSim = sumTop / denominator ;
         if (cosSim < 0)
             cosSim = 0;//This should not happen, but does because of rounding errorsl
         return cosSim;

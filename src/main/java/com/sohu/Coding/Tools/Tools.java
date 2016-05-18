@@ -30,9 +30,6 @@ import org.math.array.util.Sorting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-//import Jama.Matrix;
-
-
 
 public class Tools {
     private static Logger logger = LoggerFactory.getLogger(Tools.class);
@@ -52,26 +49,24 @@ public class Tools {
         return(argmax);
     }
 
-    public static int assignNearestCluster(double[] centroids, double value){
-        int clusterId=0;
-        double minDistance=Double.MAX_VALUE;
-        //System.out.println(value);
-        for(int i=0; i<centroids.length; i++){
-            //System.out.print(centroids[i]+","+Math.abs((centroids[i]-value)));
-            if(minDistance>Math.abs((centroids[i]-value))){
-                clusterId=i;
-                minDistance= Math.abs((centroids[i]-value));
-            }
+
+    ////******************机器学习相关**************************************
+    public static int[][] generateConfusionMatrix(int[] actualValues, int[] predictedValues, int numClasses){
+
+        int[][] confMatrix = new int[numClasses][numClasses];
+        for(int i=0; i<numClasses; i++)
+            for(int j=0; j<numClasses; j++)
+                confMatrix[i][j] = 0;
+        for(int i=0; i<actualValues.length; i++){
+            int rowIndex = actualValues[i]-1;
+            int colIndex = predictedValues[i]-1;
+            confMatrix[rowIndex][colIndex]++;
         }
-        //System.out.println("\n"+(clusterId+1));
-        return clusterId+1;
+
+        return confMatrix;
     }
 
-    /**
-     * The following method generates accuracy using the confusion matrix
-     * @param confusionMatrix
-     * @return
-     */
+    //The following method generates accuracy using the confusion matrix
     public static double calculateAccuracy(int[][] confusionMatrix){
         double accuracy=0;
         double totalDataSize=0;
@@ -85,11 +80,7 @@ public class Tools {
         return (accuracy/totalDataSize)*100;
     }
 
-    /**
-     * The following method generates accuracy for a particular using the confusion matrix
-     * @param confusionMatrix
-     * @return
-     */
+     // The following method generates accuracy for a particular using the confusion matrix
     public static double calculateAccuracy(int[][] confusionMatrix, int classIndex){
         double totalDataSize=0;
         for(int index=0; index < confusionMatrix.length; index++){
@@ -99,13 +90,8 @@ public class Tools {
         return (confusionMatrix[classIndex-1][classIndex-1]/totalDataSize)*100;
     }
 
-    /**
-     * This method calculates the precision for a particular class using the confusion matrix
-     * of all classified classes
-     * @param confusionMatrix
-     * @param classIndex
-     * @return
-     */
+
+     // This method calculates the precision for a particular class using the confusion matrix
     public static double calculatePrecision(int[][] confusionMatrix, int classIndex){
         double precision=0;
         double tp= confusionMatrix[classIndex-1][classIndex-1];
@@ -118,13 +104,7 @@ public class Tools {
         return precision;
     }
 
-    /**
-     * This method calculates the recall for a particular class using the confusion matrix
-     * of all classified classes
-     * @param confusionMatrix
-     * @param classIndex
-     * @return
-     */
+     // This method calculates the recall for a particular class using the confusion matrix
     public static double calculateRecall(int[][] confusionMatrix, int classIndex){
         double precision=0;
         double tp= confusionMatrix[classIndex-1][classIndex-1];
@@ -137,12 +117,40 @@ public class Tools {
         return precision;
     }
 
-    /**
-     * Given a set of ranges, find the bin to which a real number belongs to
-     * @param value
-     * @param ranges
-     * @return
-     */
+    public static double calculateRMSError(double[] x, double[] y){
+        double rms = 0 ;
+        for(int i = 0; i < x.length; ++i){
+            rms += Math.pow(x[i] - y[i],2);
+        }
+        rms= rms / x.length;
+        rms= Math.sqrt(rms);
+        return rms;
+    }
+    public static double calculateRSquared(double[] expected, double[]  observed) {
+        double ssTotal = 0; // total sum of squares
+        double expectedMean = mean(expected);
+        for(int i=0; i<expected.length; i++){
+            ssTotal+= Math.pow(expected[i]-expectedMean,2);
+        }
+        double ssRes = 0; // sum of squares of residuals
+        for(int i=0; i<expected.length; i++){
+            ssRes+= Math.pow(expected[i]-observed[i],2);
+        }
+        return 1 - (ssRes/ssTotal);
+    }
+    public static double calculateMeanAbsoluteError(double[] expected, double[] observed){
+        double error = 0;
+        for(int i=0; i<expected.length; i++){
+            error += Math.abs(expected[i]-observed[i]);
+        }
+        return error/expected.length;
+    }
+
+
+
+
+//////********* 直方图、区间相关***************************
+    //Given a set of ranges, find the bin to which a real number belongs to
     public static int calculateBin(double value, double[] ranges){
         if(ranges.length == 2){
             if(value < ranges[1] && value >= ranges[0])
@@ -178,333 +186,10 @@ public class Tools {
         }
     }
 
-    /**
-     * This function calculates the cosine distance between 2 vectors X1 and X2 as
-     * 1 - (sum(X1(i,:).*X2(j,:))/((sum(X1(i,:).*X1(i,:)))^(1/2)*(sum(X2(j,:).*X2(j,:)))^(1/2)))
-     * @param
-     * @param
-     * @return
-     */
-    public static double calculateCosineDistance(double[] vector1, double[] vector2){
-        double cosineDist=0;
-        double numerator=0, denominator1=0, denominator2=0;
-        for(int index=0; index < vector1.length; index++){
-            numerator= numerator + vector1[index]*vector2[index];
-        }
-        for(int index=0; index < vector1.length; index++){
-            denominator1= denominator1 + vector1[index]*vector1[index];
-        }
-        denominator1= Math.pow(denominator1, 0.5);
-        for(int index=0; index < vector2.length; index++){
-            denominator2= denominator2 + vector2[index]*vector2[index];
-        }
-        denominator2= Math.pow(denominator2, 0.5);
-        cosineDist= 1- (numerator/(denominator1*denominator2));
-        return cosineDist;
-    }
 
-    /**
-     * Calculates the cross correlation between two sequences
-     * @param x
-     * @param y
-     * @return
-     */
-    public static double calculateCrossCorrelation(double[] x, double[] y){
-        double[][] xy= new double[x.length][2];
-        for(int j=0; j<x.length; j++){
-            xy[j][0]= x[j];
-            xy[j][1]= y[j];
-        }
-        PearsonsCorrelation corrObject= new PearsonsCorrelation(xy);
-        return corrObject.getCorrelationMatrix().getData()[0][1];
-    }
-
-    public static double calculateKLDivergence(double[] vector1, double[] vector2){
-        int numAttributes = vector1.length;
-        double klDivergence=0;
-        // formula for average KL divergence between two distributions is
-        // KLDivergence= sigma_i {p_i*log(p_i/*q_i)}
-        double p_i,q_i;
-        for(int i=0; i < numAttributes; i++){
-            p_i= vector1[i];
-            q_i= vector2[i];
-            double firstLogTerm= 0.0;
-
-            if(p_i==0)
-                p_i=1E-10;
-            if(q_i==0)
-                q_i=1E-10;
-            firstLogTerm= Math.log(p_i/q_i)/Math.log(2);
-            klDivergence= klDivergence+ (p_i*firstLogTerm) ;
-        }
-        return klDivergence;
-    }
-
-    public static double calculateMahattanDistance(double[] vector1,double[] vector2){
-        double distance=0;
-        for(int index=0; index<vector1.length; index++)
-            distance+= Math.abs(vector1[index]-vector2[index]);
-        return distance;
-    }
-
-    /**
-     * This function calculates the weighted cosine distance between 2 vectors X1 and X2 as
-     * 1 - (sum(X1.*W*X2)/((sum(X1.*X1))^(1/2)*(sum(X2.*X2))^(1/2)))
-     * @param
-     * @param
-     * @return
-     */
-    public static double calculateWeightedCosineDistance(double[] vector1, double[] vector2, double[] weights){
-        double cosineDist=0;
-        double numerator=0, denominator1=0, denominator2=0;
-        for(int index=0; index < vector1.length; index++){
-            numerator= numerator + vector1[index]*vector2[index]*weights[index];
-        }
-        for(int index=0; index < vector1.length; index++){
-            denominator1= denominator1 + vector1[index]*vector1[index]*weights[index];
-        }
-        denominator1= Math.pow(denominator1, 0.5);
-        for(int index=0; index < vector2.length; index++){
-            denominator2= denominator2 + vector2[index]*vector2[index]*weights[index];
-        }
-        denominator2= Math.pow(denominator2, 0.5);
-        cosineDist= 1- (numerator/(denominator1*denominator2));
-        if(Double.isNaN(cosineDist))
-            cosineDist=1;
-        return cosineDist;
-    }
-
-    /**
-     * Calculates the three quartile values of a given array
-     **/
-    public static double[] calculateQuartiles(double[] vector){
-        DescriptiveStatistics stats = new DescriptiveStatistics();
-        for( int i = 0; i < vector.length; i++) {
-            stats.addValue(vector[i]);
-        }
-        double quartiles[] = new double[5];
-        quartiles[0] = min(vector)-1;
-        quartiles[1] = stats.getPercentile(25);
-        quartiles[2] = stats.getPercentile(50);
-        quartiles[3] = stats.getPercentile(75);
-        quartiles[4] = max(vector)+1;
-        return quartiles;
-    }
-
-    public static double calculateRMSError(double[] x, double[] y){
-        double rmsError=0;
-        double[][] xy= new double[x.length][2];
-        for(int j=0; j<x.length; j++){
-            xy[j][0]= x[j];
-            xy[j][1]= y[j];
-            rmsError+= Math.pow(x[j]-y[j],2);
-        }
-        rmsError= rmsError/x.length;
-        return Math.sqrt(rmsError);
-    }
-
-    public static double calculateRSquared(double[] expected, double[]  observed) {
-        double ssTotal = 0; // total sum of squares
-        double expectedMean = mean(expected);
-        for(int i=0; i<expected.length; i++){
-            ssTotal+= Math.pow(expected[i]-expectedMean,2);
-        }
-        double ssRes = 0; // sum of squares of residuals
-        for(int i=0; i<expected.length; i++){
-            ssRes+= Math.pow(expected[i]-observed[i],2);
-        }
-        return 1 - (ssRes/ssTotal);
-    }
-
-    public static double calculateMeanAbsoluteError(double[] expected, double[] observed){
-        double error = 0;
-        for(int i=0; i<expected.length; i++){
-            error += Math.abs(expected[i]-observed[i]);
-        }
-        return error/expected.length;
-    }
-
-    public static double[][] calculateTopicIntercorrelations(String topicTypeDistributionsFiles) throws IOException {
-        String[][] tokens =  readCSVFile(topicTypeDistributionsFiles, false);
-        double[][] unnormTopicTypeDistributions = new double[tokens.length][];
-        for(int r = 0; r < tokens.length; r++){
-            unnormTopicTypeDistributions[r] = new double[tokens[r].length];
-            for(int c = 0; c < tokens[0].length; c++){
-                double val = Double.parseDouble(tokens[r][c]);
-                if(Double.isInfinite(val) || Double.isNaN(val)){
-                    unnormTopicTypeDistributions[r][c] = 0.0;
-                } else{
-                    unnormTopicTypeDistributions[r][c] = Math.pow(val, 10);
-                }
-            }
-        }
-        double[][] topicTypeDistributions= new double[unnormTopicTypeDistributions.length][];
-        for(int d=0; d< unnormTopicTypeDistributions.length; d++){
-            topicTypeDistributions[d]= Tools.normalize(unnormTopicTypeDistributions[d]);
-        }
-        //printArray(topicTypeDistributions);
-        int numTopics = topicTypeDistributions.length;
-
-        double[][] topicSimilarities = new double[numTopics][numTopics];
-        for(int t1=0; t1<numTopics; t1++){
-            for(int t2=0; t2<=t1; t2++){
-                if(t1==t2)
-                    topicSimilarities[t1][t2]=0.0;
-                else {
-                    double distance =  Tools.calculateCosineDistance(topicTypeDistributions[t1], topicTypeDistributions[t2]);
-                    if(Double.isNaN(distance) || Double.isInfinite(distance)){
-                        distance = 1.0;
-                    }
-                    topicSimilarities[t1][t2] = 1-distance;
-                    topicSimilarities[t2][t1] = topicSimilarities[t1][t2];
-                }
-
-                //System.out.print(String.format("%.2f",topicSimilarities[t1][t2]) + ",");
-            }
-            //System.out.println();
-        }
-        //printArray(topicSimilarities);
-
-        return topicSimilarities;
-    }
-
-    /**
-     * Returns the word by capitalizing the first letter e.g for train it returns Train
-     * @param word
-     * @return
-     */
-    public static String capitalizeFirstLetter(String word){
-        String capitalizedWord= word;
-        return new String(""+capitalizedWord.charAt(0)).toUpperCase()+capitalizedWord.substring(1);
-    }
-
-    public static double[][] choleskyDecomposition(double[][] mat) throws Exception{
-        DenseCholesky ds= DenseCholesky.factorize(new DenseMatrix(mat));
-        double[][] chol=  Matrices.getArray(ds.getU());
-        while(containsNegative(getDiagonal(chol))){
-            System.out.println("Negative diagonal in Chol");
-            for(int i=0; i< mat.length; i++){
-                mat[i][i]*=1.2;
-            }
-            ds= DenseCholesky.factorize(new DenseMatrix(mat));
-            chol=  Matrices.getArray(ds.getU());
-        }
-		/*double[][] chol= new weka.core.matrix.Matrix(mat).chol().getL().transpose().getArray();*/
-        return chol;
-    }
-
-    public static double[][] concatArrays(double[][] mat1, double[][] mat2, int direction){
-        if(direction == 0) // horizontal concatination
-            assert mat1.length == mat2.length;
-        else if(direction == 1) // vertical concatination
-            assert mat1[0].length == mat2[0].length;
-        int rows, cols;
-        if(direction == 0){
-            rows = mat1.length;
-            cols = mat1[0].length + mat2[0].length;
-        }
-        else{
-            rows = mat1.length + mat2.length;
-            cols = mat1[0].length;
-        }
-        double[][] result = new double[rows][cols];
-        for(int r = 0; r < mat1.length; r++){
-            for(int c = 0; c < mat1[0].length; c++){
-                result[r][c] = mat1[r][c];
-            }
-        }
-        for(int r = 0; r < mat2.length; r++){
-            for(int c = 0; c < mat2[0].length; c++){
-                if(direction == 0)
-                    result[r][mat1[0].length+c] = mat2[r][c];
-                else
-                    result[mat1.length+r][c] = mat2[r][c];
-            }
-        }
-
-        return result;
-    }
-
-    public static boolean containsInfinity(double[][] mat){
-        boolean contains= false;
-        for(int i=0; i<mat.length; i++){
-            for(int j=0; j<mat[0].length; j++){
-                if(Double.isInfinite(mat[i][j])){
-                    contains= true;
-                    break;
-                }
-            }
-        }
-        return contains;
-    }
-
-    public static boolean containsInfinity(double[]mat){
-        boolean contains= false;
-        for(int i=0; i<mat.length; i++){
-            if(Double.isInfinite(mat[i])){
-                contains= true;
-                break;
-            }
-        }
-        return contains;
-    }
-
-    public static boolean containsNaN(double[][]  mat){
-        boolean contains= false;
-        for(int i=0; i<mat.length; i++){
-            for(int j=0; j<mat[0].length; j++){
-                if(Double.isNaN(mat[i][j])){
-                    contains= true;
-                    break;
-                }
-            }
-        }
-        return contains;
-    }
-
-    public static boolean containsNaN(double[] vector){
-        boolean contains=false;
-        for(double num: vector){
-            if(Double.isNaN(num)){
-                contains= true;
-                break;
-            }
-        }
-        return contains;
-    }
-
-    public static boolean containsZero(double[] vector){
-        boolean contains=false;
-        for(double num: vector){
-            if(num==0.0){
-                contains= true;
-                break;
-            }
-        }
-        return contains;
-    }
-
-    public static boolean containsNegative(double[] vec){
-        boolean contains=false;
-        for(double num: vec){
-            if(num<0.0){
-                contains= true;
-                break;
-            }
-        }
-        return contains;
-    }
-
-    public static double[] getDiagonal(double[][] mat){
-        double[] result= new double[mat.length];
-        for(int i=0; i<mat.length; i++)
-            result[i]= mat[i][i];
-        return result;
-    }
-
+    ///////////////*************数学相关******************************************
     /* taylor approximation of first derivative of the log gamma function */
-    public static double digamma(double x)
-    {
+    public static double digamma(double x) {
         double p;
         x=x+6;
         p=1/(x*x);
@@ -514,30 +199,11 @@ public class Tools {
         return p;
     }
 
-
-
-    /**
-     * returns an m x m identity matrix
-     * @param m
-     * @return
-     */
-    public static double[][] eye(int m){
-        double[][] identityMat= new double[m][m];
-        for(int i=0; i<m; i++)
-            for(int j=0; j<m; j++){
-                if(i==j)
-                    identityMat[i][j]=1;
-                else
-                    identityMat[i][j]=0;
-            }
-        return identityMat;
-    }
-
-    public static double Gamma(double x)    // We require x > 0
-    {
+    ////x>0
+    public static double Gamma(double x) {
+        // We require x > 0
         // Note that the functions Gamma and LogGamma are mutually dependent.
         // Visit http://www.johndcook.com/stand_alone_code.html for the source of this code and more like it.
-
 		/*if (x <= 0.0)
 		{
 			std::stringstream os;
@@ -658,9 +324,8 @@ public class Tools {
 
         return Math.exp(LogGamma(x));
     }
-
-    public static double LogGamma(double x ) // x must be positive
-    {
+    public static double LogGamma(double x ) {
+        // x must be positive
         // Note that the functions Gamma and LogGamma are mutually dependent.
         // Visit http://www.johndcook.com/stand_alone_code.html for the source of this code and more like it.
 		/*if (x <= 0.0)
@@ -709,102 +374,6 @@ public class Tools {
         logGamma = (x - 0.5)*Math.log(x) - x + halfLogTwoPi + series;
         return logGamma;
     }
-
-    public static int[][] generateConfusionMatrix(int[] actualValues, int[] predictedValues, int numClasses){
-
-        int[][] confMatrix = new int[numClasses][numClasses];
-        for(int i=0; i<numClasses; i++)
-            for(int j=0; j<numClasses; j++)
-                confMatrix[i][j] = 0;
-        for(int i=0; i<actualValues.length; i++){
-            int rowIndex = actualValues[i]-1;
-            int colIndex = predictedValues[i]-1;
-            confMatrix[rowIndex][colIndex]++;
-        }
-
-        return confMatrix;
-    }
-
-
-
-    public static String generateRandomString(int length){
-        String[] randomChars= {"A","B","C","D","E","F","G","H","I","J","K","L","M",
-                "N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
-                "1","2","3","4","5","6","7","8","9","0",
-                "!","@","#","$","&","%","@","#"};
-        String randomString= "";
-        Random rnd= new Random();
-        for(int i=0; i<length; i++){
-            randomString+= new String(""+randomChars[rnd.nextInt(randomChars.length)]);
-        }
-        return randomString;
-    }
-
-    public static int[][] loadDocuments(String filePath) throws IOException{
-        int[][] documents;
-        ArrayList<ArrayList<Integer>> documentsArrList= new ArrayList<ArrayList<Integer>>();
-        BufferedReader file= new BufferedReader(new FileReader(filePath));
-        String newLine= file.readLine();
-        while(newLine!=null && !newLine.isEmpty()){
-            String[] tokens= null;
-            try{
-                tokens= newLine.split(",")[1].trim().split(" ");
-                //System.out.println(newLine);
-            }
-            catch(ArrayIndexOutOfBoundsException a){
-                System.out.println(newLine);
-            }
-            ArrayList<Integer>  temp= new ArrayList<Integer>();
-            for(int i=0; i<tokens.length; i++){
-                if(!tokens[i].trim().equalsIgnoreCase("nan"))
-                    temp.add(Integer.parseInt(tokens[i].trim()));
-                else{
-                    temp= new ArrayList<Integer>();
-                    break;
-                }
-            }
-            documentsArrList.add(temp);
-            newLine= file.readLine();
-        }
-        file.close();
-        //System.out.println(documentsArrList);
-        documents= new int[documentsArrList.size()][];//documentsArrList.size()
-        for(int i=0; i<documentsArrList.size();i++){
-            ArrayList<Integer>  temp= documentsArrList.get(i);
-            documents[i]= new int[temp.size()];
-            for(int j=0; j<temp.size(); j++)
-                documents[i][j]=temp.get(j);
-        }
-        //printArray(documents);
-        return documents;
-    }
-
-    public static int[] loadSequenceIds(String filePath, int maxNumDigits) throws IOException{
-        int[] sequenceIds;
-        ArrayList<Integer> documentsArrList= new ArrayList<Integer>();
-        BufferedReader file= new BufferedReader(new FileReader(filePath));
-        String newLine= file.readLine();
-        int prevId= Integer.parseInt(newLine.split(",")[0].substring(1, maxNumDigits+1));
-        int sequenceId=1;
-        while(newLine != null && !newLine.isEmpty()){
-            String token= newLine.split(",")[0];
-            int currId= Integer.parseInt(token.substring(1, maxNumDigits+1));
-            if(currId!=prevId)
-                sequenceId++;
-            documentsArrList.add(sequenceId);
-            prevId= currId;
-            newLine= file.readLine();
-        }
-        file.close();
-        //System.out.println(documentsArrList);
-        sequenceIds= new int[documentsArrList.size()];//documentsArrList.size()
-        for(int i=0; i<documentsArrList.size();i++){
-            sequenceIds[i]= documentsArrList.get(i);
-
-        }
-        return sequenceIds;
-    }
-
     public static double[] log(double[] vec){
         double[] result= new double[vec.length];
         for(int i=0; i<vec.length; i++)
@@ -813,7 +382,7 @@ public class Tools {
     }
 
     public static double logmvgamma(double x, double d){
-        double y= (d*(d-1)/4)*Math.log(Math.PI);
+        double y= (d * (d - 1) / 4) * Math.log(Math.PI);
         //System.out.println(y);
         for(int i=0; i<d; i++){
             y+= LogGamma(x-((double)i/2));
@@ -822,72 +391,191 @@ public class Tools {
         return y;
     }
 
-    /*
-     * given log(a) and log(b), return log(a + b)
-     *
-     */
+    //given log(a) and log(b), return log(a + b)
     public static double log_sum(double log_a, double log_b) {
         double v;
-
-        if (log_a < log_b)
-        {
+        if (log_a < log_b) {
             v = log_b+Math.log(1 + Math.exp(log_a-log_b));
         }
-        else
-        {
+        else {
             v = log_a+Math.log(1 + Math.exp(log_b-log_a));
         }
         return(v);
     }
 
-    /**
-     * Density function of normal distribution.
-     * @param x input value
-     * @param mean mean of distribution
-     * @param stdDev standard deviation of distribution
-     * @return the density
-     */
+    //// 获取正太分布的密度值 Density function of normal distribution.
     public static double logNormalDens (double x, double mean, double stdDev) {
 
         double diff = x - mean;
         return - (diff * diff / (2 * stdDev * stdDev))  - m_normConst - Math.log(stdDev);
         //return Math.log(new NormalDistribution(mean,stdDev).probability(x-(stdDev/100),x+(stdDev/100)));
     }
+    ///获取概率估计 Get a probability estimate for a value
+    public static double normalPDF(double data, double mean, double stdDev) {
 
-    public static void main(String[] args) throws Exception{
-        //generateTfIdfFeatures("report",2429);
-		/*String category = "report";
-		String[][] tokens1 = readCSVFile("/Users/prasanthlade/Documents/ibm/"+category+"/responses/TrainTime001.csv", false);
-		String[][] tokens2 = readCSVFile("/Users/prasanthlade/Documents/ibm/"+category+"/responses/TestTime001.csv", false);
-		double[] responses  = new double[tokens1.length+tokens2.length];
-		int count =0;
-		for(int i =0; i<tokens1.length; i++){
-			responses[count] = Double.parseDouble(tokens1[i][1]);
-			count++;
-		}
-		for(int i =0; i<tokens2.length; i++){
-			responses[count] = Double.parseDouble(tokens2[i][1]);
-			count++;
-		}
-		double[] quartiles = calculateQuartiles(responses);
-		printArray(quartiles);
-		for(int i=1; i<=3; i++){
-			tokens1 = readCSVFile("/Users/prasanthlade/Documents/ibm/"+category+"/responses/TrainTime00"+i+".csv", false);
-			tokens2 = readCSVFile("/Users/prasanthlade/Documents/ibm/"+category+"/responses/TestTime00"+i+".csv", false);
-			PrintWriter pw = new PrintWriter(new File("/Users/prasanthlade/Documents/ibm/"+category+"/responses/TrainQuanttime00"+i+".csv"));
-			for(int j =0; j<tokens1.length; j++){
-				int bin = calculateBin(Double.parseDouble(tokens1[j][1]), quartiles);
-				pw.println(tokens1[j][0]+","+bin);
-			}
-			pw.close();
-			pw = new PrintWriter(new File("/Users/prasanthlade/Documents/ibm/"+category+"/responses/TestQuanttime00"+i+".csv"));
-			for(int j =0; j<tokens2.length; j++){
-				int bin = calculateBin(Double.parseDouble(tokens2[j][1]), quartiles);
-				pw.println(tokens2[j][0]+","+bin);
-			}
-			pw.close();
-		}*/
+		/*data = Math.rint(data / precision) * precision;
+	    double zLower = (data - mean - (precision / 2)) / sigma;
+	    double zUpper = (data - mean + (precision / 2)) / sigma;
+	    double pLower = Statistics.normalProbability(zLower);
+	    double pUpper = Statistics.normalProbability(zUpper);
+	    return pUpper - pLower;*/
+        return Math.exp(logNormalDens(data, mean, stdDev));
     }
+
+    public static double max(double[] vector){
+        double maxVal= -1000000.0;
+        for(double val: vector){
+            if(val > maxVal)
+                maxVal= val;
+        }
+        return maxVal;
+    }
+    //Finds the highest N numbers in a vector and returns an array of indices
+    public static int[] max(double[] vector, int N){
+        double[] newvec= new double[vector.length];
+        for(int i=0; i<vector.length;i++)
+            newvec[i]= vector[i];
+        Sorting s= new Sorting(newvec, false);
+        int[] allIndices= s.getIndex();
+        int[] nIndices= new int[N];
+        int count=0;
+        for(int index=vector.length-1;index>=vector.length-N;index--){
+            nIndices[count]= allIndices[index];
+            count++;
+        }
+        return nIndices;
+    }
+    public static double mean(double[] vector){
+        double sum= 0;
+        for(double val: vector){
+            sum+= val;
+        }
+        return sum/vector.length;
+    }
+    public static double mean(ArrayList<Double> vector){
+        double sum= 0;
+        for(double val: vector){
+            sum+= val;
+        }
+        return sum/vector.size();
+    }
+    public static double min(double[] vector){
+        double minVal= 10000000.0;
+        for(double val: vector){
+            if(minVal > val)
+                minVal= val;
+        }
+        return minVal;
+    }
+    public static int[] min(double[] vector, int N){
+        double[] newvec= new double[vector.length];
+        for(int i=0; i<vector.length;i++)
+            newvec[i]= vector[i];
+        Sorting s= new Sorting(newvec, false);
+        int[] allIndices= s.getIndex();
+        int[] nIndices= new int[N];
+        int count=0;
+        for(int index=vector.length-N;index<=vector.length-1;index++){
+            nIndices[count]= allIndices[index];
+            count++;
+        }
+        return nIndices;
+    }
+    public static int[] min(int[] vector, int N){
+        double[] newvec= new double[vector.length];
+        for(int i=0; i<vector.length;i++)
+            newvec[i]= vector[i];
+        Sorting s= new Sorting(newvec, false);
+        int[] allIndices= s.getIndex();
+        int[] nIndices= new int[N];
+        int count=0;
+        for(int index=vector.length-N;index<=vector.length-1;index++){
+            nIndices[count]= allIndices[index];
+            count++;
+        }
+        return nIndices;
+    }
+    public static double sum(double[] vector){
+        double sum= 0;
+        for(double val: vector){
+            sum+= val;
+        }
+        return sum;
+    }
+    public static double[] sum(double[][] vector, int dim){
+        double[] sum;
+        if(dim==1){
+            sum= new double[vector[0].length];
+            for(int i=0; i<vector[0].length; i++){
+                sum[i]=0;
+                for(int j=0; j<vector.length; j++){
+                    sum[i]+= vector[j][i];
+                }
+            }
+        }
+        else{
+            sum= new double[vector.length];
+            for(int i=0; i<vector.length; i++){
+                sum[i]=0;
+                for(int j=0; j<vector[0].length; j++){
+                    sum[i]+= vector[i][j];
+                }
+            }
+        }
+        return sum;
+    }
+    public static double variance(ArrayList<Double> vector){
+        double var= 0;
+        double mean= mean(vector);
+        for(double val: vector){
+            var+= (val-mean)*(val-mean);
+        }
+        return var/vector.size();
+    }
+    public static double weightedMean(double[] vector, double[] weights){
+        double numer = 0, denom = 0;
+        for(int i=0; i< vector.length; ++i){
+            numer += weights[i] * vector[i];
+            denom += weights[i];
+        }
+        return numer/denom;
+    }
+    // 数组 +=
+    public static void arrayAddEqual(double[] A,double[] B){
+        if(null == A || null == B){
+            logger.error("+= 输入为空！");
+            return ;
+        }
+        if(A.length != B.length){
+            logger.error("+= 尺寸不一致！");
+            return;
+        }
+        int len = A.length;
+        for(int i = 0; i < len;++ i){
+            A[i] += B[i];
+        }
+    }
+    // 数组加法
+    public static double[]  arrayAdd(double[] A,double[] B){
+
+        if(null == A || null == B){
+            logger.error("+= 输入为空！");
+            return null;
+        }
+        if(A.length != B.length){
+            logger.error("+= 尺寸不一致！");
+            return null;
+        }
+
+        int len = A.length;
+        double []result = new double[len];
+        for(int i = 0; i < len;++ i){
+            result[i] = A[i] + B[i];
+        }
+        return result;
+    }
+
+    /////****************MATLAB 向量、矩阵运算相关******************************
 
     public static double[][] matrixMultiply(double[][] A, double[][] B, boolean transposeA, boolean transposeB){
 		/*Matrix m1= new Matrix(mat1);
@@ -917,16 +605,6 @@ public class Tools {
     public static double[][] matrixInverse(double[][] mat){
 
         double[][] inv= new double[mat.length][mat.length];
-		/*try{
-			//UTransposeInv= new Matrix(U).transpose().inverse().getArray();
-			inv= new DenseDoubleAlgebra().inverse(new DenseColumnDoubleMatrix2D(mat)).toArray();
-		}
-		catch(RuntimeException rte){
-			for(int j=0; j<mat.length; j++)
-				mat[j][j]+=Math.random()/10000;
-			//UTransposeInv= new Matrix(U).transpose().inverse().getArray();
-			inv= new DenseDoubleAlgebra().inverse(new DenseColumnDoubleMatrix2D(mat)).toArray();
-		}*/
         DenseMatrix eye= Matrices.identity(mat.length);
         inv= Matrices.getArray(new DenseMatrix(mat).solve(eye, new DenseMatrix(inv)));
         //inv= new weka.core.matrix.Matrix(mat).inverse().getArray();
@@ -944,44 +622,177 @@ public class Tools {
         return trans;
     }
 
-    public static double max(double[] vector){
-        double maxVal= -1000000.0;
-        for(double val: vector){
-            if(val > maxVal)
-                maxVal= val;
+     // 计算互相关系数Calculates the cross correlation between two sequences
+    public static double calculateCrossCorrelation(double[] x, double[] y){
+        double[][] xy= new double[x.length][2];
+        for(int j=0; j<x.length; j++){
+            xy[j][0]= x[j];
+            xy[j][1]= y[j];
         }
-        return maxVal;
+        PearsonsCorrelation corrObject= new PearsonsCorrelation(xy);
+        return corrObject.getCorrelationMatrix().getData()[0][1];
     }
 
-    /**
-     * Finds the highest N numbers in a vector and returns an array of indices
-     * @param vector
-     * @param N
-     * @return
-     */
-    public static int[] max(double[] vector, int N){
-        double[] newvec= new double[vector.length];
-        for(int i=0; i<vector.length;i++)
-            newvec[i]= vector[i];
-        Sorting s= new Sorting(newvec, false);
-        int[] allIndices= s.getIndex();
-        int[] nIndices= new int[N];
-        int count=0;
-        for(int index=vector.length-1;index>=vector.length-N;index--){
-            nIndices[count]= allIndices[index];
-            count++;
+     ////计算四分位数 Calculates the three quartile values of a given array
+    public static double[] calculateQuartiles(double[] vector){
+        DescriptiveStatistics stats = new DescriptiveStatistics();
+        for( int i = 0; i < vector.length; i++) {
+            stats.addValue(vector[i]);
         }
-        return nIndices;
+        double quartiles[] = new double[5];
+        quartiles[0] = min(vector)-1;
+        quartiles[1] = stats.getPercentile(25);
+        quartiles[2] = stats.getPercentile(50);
+        quartiles[3] = stats.getPercentile(75);
+        quartiles[4] = max(vector)+1;
+        return quartiles;
     }
 
-    public static double mean(double[] vector){
-        double sum= 0;
-        for(double val: vector){
-            sum+= val;
+    ////Cholesky分解 把矩阵分解为一个下三角矩阵以及它的共轭转置矩阵的乘积
+    public static double[][] choleskyDecomposition(double[][] mat) throws Exception{
+        DenseCholesky ds= DenseCholesky.factorize(new DenseMatrix(mat));
+        double[][] chol=  Matrices.getArray(ds.getU());
+        while(containsNegative(getDiagonal(chol))){
+            System.out.println("Negative diagonal in Chol");
+            for(int i=0; i< mat.length; i++){
+                mat[i][i]*=1.2;
+            }
+            ds= DenseCholesky.factorize(new DenseMatrix(mat));
+            chol=  Matrices.getArray(ds.getU());
         }
-        return sum/vector.length;
+		/*double[][] chol= new weka.core.matrix.Matrix(mat).chol().getL().transpose().getArray();*/
+        return chol;
+    }
+    //////级联矩阵
+    public static double[][] concatArrays(double[][] mat1, double[][] mat2, int direction){
+        if(direction == 0) // horizontal concatination
+            assert mat1.length == mat2.length;
+        else if(direction == 1) // vertical concatination
+            assert mat1[0].length == mat2[0].length;
+        int rows, cols;
+        if(direction == 0){
+            rows = mat1.length;
+            cols = mat1[0].length + mat2[0].length;
+        }
+        else{
+            rows = mat1.length + mat2.length;
+            cols = mat1[0].length;
+        }
+        double[][] result = new double[rows][cols];
+        for(int r = 0; r < mat1.length; r++){
+            for(int c = 0; c < mat1[0].length; c++){
+                result[r][c] = mat1[r][c];
+            }
+        }
+        for(int r = 0; r < mat2.length; r++){
+            for(int c = 0; c < mat2[0].length; c++){
+                if(direction == 0)
+                    result[r][mat1[0].length+c] = mat2[r][c];
+                else
+                    result[mat1.length+r][c] = mat2[r][c];
+            }
+        }
+
+        return result;
+    }
+    public static boolean containsInfinity(double[][] mat){
+        boolean contains= false;
+        for(int i=0; i<mat.length; i++){
+            for(int j=0; j<mat[0].length; j++){
+                if(Double.isInfinite(mat[i][j])){
+                    contains= true;
+                    break;
+                }
+            }
+        }
+        return contains;
     }
 
+    public static boolean containsInfinity(double[]mat){
+        boolean contains= false;
+        for(int i=0; i<mat.length; i++){
+            if(Double.isInfinite(mat[i])){
+                contains= true;
+                break;
+            }
+        }
+        return contains;
+    }
+
+    public static boolean containsNaN(double[][]  mat){
+        boolean contains= false;
+        for(int i=0; i<mat.length; i++){
+            for(int j=0; j<mat[0].length; j++){
+                if(Double.isNaN(mat[i][j])){
+                    contains= true;
+                    break;
+                }
+            }
+        }
+        return contains;
+    }
+
+    public static boolean containsNaN(double[] vector){
+        boolean contains=false;
+        for(double num: vector){
+            if(Double.isNaN(num)){
+                contains= true;
+                break;
+            }
+        }
+        return contains;
+    }
+
+    public static boolean containsZero(double[] vector){
+        boolean contains=false;
+        for(double num: vector){
+            if(num==0.0){
+                contains= true;
+                break;
+            }
+        }
+        return contains;
+    }
+
+    public static boolean containsNegative(double[] vec){
+        boolean contains=false;
+        for(double num: vec){
+            if(num<0.0){
+                contains= true;
+                break;
+            }
+        }
+        return contains;
+    }
+
+    public static double[] getDiagonal(double[][] mat){
+        double[] result= new double[mat.length];
+        for(int i=0; i<mat.length; i++)
+            result[i]= mat[i][i];
+        return result;
+    }
+
+    ///// 返回 m x m identity matrix
+    public static double[][] eye(int m){
+        double[][] identityMat= new double[m][m];
+        for(int i=0; i<m; i++)
+            for(int j=0; j<m; j++){
+                if(i==j)
+                    identityMat[i][j]=1;
+                else
+                    identityMat[i][j]=0;
+            }
+        return identityMat;
+    }
+
+    public static double[][] sqrt(double[][] mat){
+
+        double[][] result= new double[mat.length][mat[0].length];
+        for(int i=0; i<mat.length; i++)
+            for(int j=0; j<mat[0].length; j++)
+                result[i][j]= Math.sqrt(mat[i][j]);
+        return result;
+    }
     public static double[] mean(double[][] vector, int dim){
         double[] mean;
         if(dim == 1){
@@ -1005,314 +816,15 @@ public class Tools {
         }
         return mean;
     }
-
-    public static double mean(ArrayList<Double> vector){
-        double sum= 0;
-        for(double val: vector){
-            sum+= val;
-        }
-        return sum/vector.size();
-    }
-
-    public static double min(double[] vector){
-        double minVal= 10000000.0;
-        for(double val: vector){
-            if(minVal > val)
-                minVal= val;
-        }
-        return minVal;
-    }
-
-    public static int[] min(double[] vector, int N){
-        double[] newvec= new double[vector.length];
-        for(int i=0; i<vector.length;i++)
-            newvec[i]= vector[i];
-        Sorting s= new Sorting(newvec, false);
-        int[] allIndices= s.getIndex();
-        int[] nIndices= new int[N];
-        int count=0;
-        for(int index=vector.length-N;index<=vector.length-1;index++){
-            nIndices[count]= allIndices[index];
-            count++;
-        }
-        return nIndices;
-    }
-
-    public static int[] min(int[] vector, int N){
-        double[] newvec= new double[vector.length];
-        for(int i=0; i<vector.length;i++)
-            newvec[i]= vector[i];
-        Sorting s= new Sorting(newvec, false);
-        int[] allIndices= s.getIndex();
-        int[] nIndices= new int[N];
-        int count=0;
-        for(int index=vector.length-N;index<=vector.length-1;index++){
-            nIndices[count]= allIndices[index];
-            count++;
-        }
-        return nIndices;
-    }
-
-    public static double[] normalize(double[] vector){
-        double sum= sum(vector);
-        for(int i=0; i<vector.length; i++){
-            if(sum!=0)
-                vector[i]= vector[i]/sum;
-            else
-                vector[i]=0;
-        }
-        return vector;
-    }
-
-    public static double[][] normalizeFeatures(double[][] mat){
-        double[][] newMat= new double[mat.length][mat[0].length];
-        double[] minVals= new double[mat[0].length];
-        double[] maxVals= new double[mat[0].length];
-        for(int n=0; n<mat[0].length; n++){
-            minVals[n]=Double.POSITIVE_INFINITY;
-            maxVals[n]=Double.NEGATIVE_INFINITY;
-        }
-        for(int i=0; i<mat.length; i++){
-            for(int n=0; n<mat[0].length; n++){
-                if(mat[i][n]<minVals[n]){
-                    minVals[n]= mat[i][n];
-                }
-                if(mat[i][n]>maxVals[n]){
-                    maxVals[n]= mat[i][n];
-                }
-            }
-        }
-        //Utilities.printArray("maxVals ",maxVals);
-        //Utilities.printArray("minVals ",minVals);
-        for(int i=0; i<mat.length; i++){
-            for(int n=0; n<mat[0].length; n++){
-                if(maxVals[n] == minVals[n])
-                    newMat[i][n]= 1;
-                else
-                    newMat[i][n] = (mat[i][n] - minVals[n]) /
-                            (maxVals[n] - minVals[n]);
-            }
-        }
-		/*
-		 value = (vals[j] - m_MinArray[j]) /
-	      (m_MaxArray[j] - m_MinArray[j]) * m_Scale + m_Translation;
-		 */
-        return newMat;
-    }
-
-    /**
-     * Get a probability estimate for a value
-     *
-     * @param data the value to estimate the probability of
-     * @return the estimated probability of the supplied value
-     */
-    public static double normalPDF(double data, double mean, double stdDev) {
-
-		/*data = Math.rint(data / precision) * precision;
-	    double zLower = (data - mean - (precision / 2)) / sigma;
-	    double zUpper = (data - mean + (precision / 2)) / sigma;
-	    double pLower = Statistics.normalProbability(zLower);
-	    double pUpper = Statistics.normalProbability(zUpper);
-	    return pUpper - pLower;*/
-        return Math.exp(logNormalDens(data, mean, stdDev));
-    }
-
-    public static double precision(ArrayList<Double> vector){
-        Collections.sort(vector);
-        //System.out.println(vector);
-        double precision= 0;
-        int distinct=0;
-        for(int i=1; i< vector.size(); i++){
-            if(vector.get(i)!=vector.get(i-1)){
-                precision+= (vector.get(i)-vector.get(i-1));
-                distinct++;
-            }
-        }
-        if(vector.size()==0 || vector.size()==1)
-            return 0;
-        else
-            return precision/distinct;
-    }
-
-    public static void printArray(double[][] array){
-        for(int i=0; i<array.length; i++){
-            for(int j=0; j<array[i].length; j++)
-                System.out.print(String.format("%.3f", array[i][j])+"\t");
-            System.out.print("\n");
-        }
-    }
-
-    public static void printArray(int[][] array){
-        for(int i=0; i<array.length; i++){
-            for(int j=0; j<array[i].length; j++)
-                System.out.print(String.format("%d", array[i][j])+"\t");
-            System.out.print("\n");
-        }
-    }
-
-    public static void printArrayToFile(double[][] array,String filePath) {
-        try{
-            PrintWriter pw= new PrintWriter(new File(filePath));
-            for(int i=0; i<array.length; i++){
-                for(int j=0; j<array[i].length; j++)
-                    pw.print(String.format("%.4f", array[i][j])+"\t");
-                pw.print("\n");
-            }
-            pw.close();
-        }catch(IOException ioe){}
-
-    }
-
-    public static void printArray(int[] array){
-        System.out.print("\n[ ");
-        for(int i=0; i<array.length; i++){
-            System.out.print(array[i]+" ");
-        }
-        System.out.print("]\n");
-    }
-
-    public static void printArray(double[] array){
-        System.out.print("\n[ ");
-        for(int i=0; i<array.length; i++){
-            System.out.print(String.format("%.3f", array[i])+"\t");
-        }
-        System.out.print("]\n");
-    }
-
-    public static void printArray(String message,double[] array){
-        DecimalFormat fmt= new DecimalFormat("#.####");
-        System.out.print(message+": [ ");
-        for(int i=0; i<array.length; i++){
-            System.out.print(fmt.format(array[i])+" ");
-        }
-        System.out.print("]\n");
-    }
-
-    public static void printArray(String[] array){
-        System.out.print("\n[ ");
-        for(int i=0; i<array.length; i++){
-            System.out.print(array[i]+" ");
-        }
-        System.out.print("]\n");
-    }
-
-    /**
-     * Reads a csv file into an array of Strings and also uses the info if there is a
-     * header or not
-     * @param fileName
-     * @param hasHeader
-     * @return
-     */
-    public static String[][] readCSVFile(String fileName, boolean hasHeader) throws IOException{
-        ArrayList<ArrayList<String>> dataList= new ArrayList<ArrayList<String>>();
-        BufferedReader file= new BufferedReader(new FileReader(fileName));
-        String newline= file.readLine();
-        if(hasHeader)
-            newline= file.readLine();
-        while(newline!=null){
-            String[] tokens= newline.split(",");
-            ArrayList<String> temp= new ArrayList<String>();
-            for(String token: tokens)
-                temp.add(token);
-            dataList.add(temp);
-            newline= file.readLine();
-        }
-        file.close();
-        String[][] data= new String[dataList.size()][dataList.get(0).size()];
-        for(int row=0; row< dataList.size(); row++)
-            for(int col=0; col< dataList.get(0).size(); col++)
-                data[row][col]= dataList.get(row).get(col);
-        return data;
-    }
-
-    public static double rmsError(double[] v1, double[] v2){
-        double rms=0;
-        for(int i=0; i<v1.length; i++){
-            rms+= Math.pow(v1[i]-v2[i],2);
-        }
-        rms= rms/v1.length;
-        rms= Math.sqrt(rms);
-        return rms;
-    }
-
-    /**
-     * This method takes a multinomial (or bernoulli) probability distribution as an input and samples
-     * a value from the distribution
-     * @param p
-     */
-    public static int sampleFromDistribution(double[] p){
-        int sample;
-        // cumulate multinomial parameters
-        for (int k = 1; k < p.length; k++) {
-            p[k] += p[k - 1];
-        }
-        // scaled sample because of unnormalised p[]
-        double u = Math.random() * p[p.length-1];
-        for (sample = 0; sample < p.length; sample++) {
-            if (u < p[sample])
-                break;
-        }
-        return sample;
-    }
-
-    /**
-     * Scales an array of real values to the range [min,max]
-     * @param input
-     * @param min
-     * @param max
-     * @return
-     */
-    public static double[] scaleData(double[] input,double min, double max){
-        // find the max and min values of the array
-        double originalMin= 10000,originalMax= 0;
-        double[] output= new double[input.length];
-        for(int i=0; i<input.length; i++){
-            if(input[i]<originalMin){
-                originalMin= input[i];
-            }
-            if(input[i]>originalMax){
-                originalMax= input[i];
-            }
-            //System.out.println(input[i]);
-        }
-        //System.out.println(min+","+max+","+originalMin+","+originalMax);
-        for(int i=0; i<input.length; i++){
-            output[i]=(((max-min)/(originalMax-originalMin+0.00001))*(input[i]-originalMin))+min;
-            //System.out.println(input[i]+","+output[i]);
-        }
-        return output;
-    }
-
-    public static double[] scaleData(double[] input,double originalMin, double originalMax, double targetMin, double targetMax){
-        double[] output= new double[input.length];
-        //System.out.println(min+","+max+","+originalMin+","+originalMax);
-        for(int i=0; i<input.length; i++){
-            output[i]=(((targetMax-targetMin)/(originalMax-originalMin+0.00001))*(input[i]-originalMin))+targetMin;
-            //System.out.println(input[i]+","+output[i]);
-        }
-        return output;
-    }
-
     public static void sizeOf(double[][] mat){
         System.out.println(mat.length+"x"+mat[0].length);
     }
-
-    public static double[][] sqrt(double[][] mat){
-
-        double[][] result= new double[mat.length][mat[0].length];
-        for(int i=0; i<mat.length; i++)
-            for(int j=0; j<mat[0].length; j++)
-                result[i][j]= Math.sqrt(mat[i][j]);
-        return result;
-    }
-
     public static double[] stddeviation(double[][] v) {
         double[] var = variance(v);
         for (int i = 0; i < var.length; i++)
             var[i] = Math.sqrt(var[i]);
         return var;
     }
-
     public static double[] variance(double[][] v) {
         int m = v.length;
         int n = v[0].length;
@@ -1332,132 +844,345 @@ public class Tools {
         }
         return var;
     }
-    public static double sum(double[] vector){
-        double sum= 0;
-        for(double val: vector){
-            sum+= val;
+
+
+
+
+    ///////*****************字符串相关**********************************
+    /////首字母变大写。
+    public static String capitalizeFirstLetter(String word){
+        String capitalizedWord= word;
+        return new String(""+capitalizedWord.charAt(0)).toUpperCase()+capitalizedWord.substring(1);
+    }
+    ///生成随机数组
+    public static String generateRandomString(int length){
+        String[] randomChars= {"A","B","C","D","E","F","G","H","I","J","K","L","M",
+                "N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
+                "1","2","3","4","5","6","7","8","9","0",
+                "!","@","#","$","&","%","@","#"};
+        String randomString= "";
+        Random rnd= new Random();
+        for(int i=0; i<length; i++){
+            randomString+= new String(""+randomChars[rnd.nextInt(randomChars.length)]);
         }
-        return sum;
+        return randomString;
     }
 
-    public static double[] sum(double[][] vector, int dim){
-        double[] sum;
-        if(dim==1){
-            sum= new double[vector[0].length];
-            for(int i=0; i<vector[0].length; i++){
-                sum[i]=0;
-                for(int j=0; j<vector.length; j++){
-                    sum[i]+= vector[j][i];
-                }
-            }
-        }
-        else{
-            sum= new double[vector.length];
-            for(int i=0; i<vector.length; i++){
-                sum[i]=0;
-                for(int j=0; j<vector[0].length; j++){
-                    sum[i]+= vector[i][j];
-                }
-            }
-        }
-        return sum;
-    }
 
-    public static double variance(ArrayList<Double> vector){
-        double var= 0;
-        double mean= mean(vector);
-        for(double val: vector){
-            var+= (val-mean)*(val-mean);
-        }
-        return var/vector.size();
-    }
 
-    public static double weightedMean(double[] vector, double[] weights){
-        double numer=0, denom=0;
-        for(int i=0; i< vector.length; i++){
-            numer+= weights[i]*vector[i];
-            denom+= weights[i];
-        }
-        return numer/denom;
-    }
 
-    /**
-     * Given a set of ranges, this method quantizes an array of real numbers to respective bins
-     */
-    public static int[] vectorQuantizeUsingBinning(double[] vector, double[] ranges){
-        int[] quantizedVector = new int[vector.length];
-        for(int i=0; i<vector.length; i++){
-            quantizedVector[i] = calculateBin(vector[i], ranges);
+///////////////***************打印工具*****************************
+    public static void printArray(double[][] array){
+        for(int i=0; i<array.length; i++){
+            for(int j=0; j<array[i].length; j++)
+                System.out.print(String.format("%.3f", array[i][j])+"\t");
+            System.out.print("\n");
         }
-        return quantizedVector;
     }
-
-    public static boolean writeCSVFile(String filePath, double[][] data, String[] header, boolean hasHeader, char delimiter){
+    public static void printArray(int[][] array){
+        for(int i=0; i<array.length; i++){
+            for(int j=0; j<array[i].length; j++)
+                System.out.print(String.format("%d", array[i][j])+"\t");
+            System.out.print("\n");
+        }
+    }
+    public static void printArrayToFile(double[][] array,String filePath) {
         try{
-            PrintWriter pw = new PrintWriter(new File(filePath));
-            if(hasHeader) {
-                assert header != null;
-                for(int i = 0; i < header.length; i++){
-                    pw.print(header[i]);
-                    if(i < header.length-1)
-                        pw.print(delimiter);
-                }
-                pw.println();
-            }
-            else {
-                for(int row = 0; row < data.length; row++) {
-                    for(int col = 0; col < data[0].length; col++){
-                        pw.print(data[row][col]);
-                        if(col < data[0].length-1)
-                            pw.print(delimiter);
-                    }
-                    pw.println();
-                }
+            PrintWriter pw= new PrintWriter(new File(filePath));
+            for(int i=0; i<array.length; i++){
+                for(int j=0; j<array[i].length; j++)
+                    pw.print(String.format("%.4f", array[i][j])+"\t");
+                pw.print("\n");
             }
             pw.close();
-        }
-        catch(IOException ioe){
-            ioe.printStackTrace();
-            return false;
-        }
+        }catch(IOException ioe){}
 
-        return true;
+    }
+    public static void printArray(int[] array){
+        System.out.print("\n[ ");
+        for(int i=0; i<array.length; i++){
+            System.out.print(array[i]+" ");
+        }
+        System.out.print("]\n");
+    }
+    public static void printArray(double[] array){
+        System.out.print("\n[ ");
+        for(int i=0; i<array.length; i++){
+            System.out.print(String.format("%.3f", array[i])+"\t");
+        }
+        System.out.print("]\n");
+    }
+    public static void printArray(String message,double[] array){
+        DecimalFormat fmt= new DecimalFormat("#.####");
+        System.out.print(message+": [ ");
+        for(int i=0; i<array.length; i++){
+            System.out.print(fmt.format(array[i])+" ");
+        }
+        System.out.print("]\n");
+    }
+    public static void printArray(String[] array){
+        System.out.print("\n[ ");
+        for(int i=0; i<array.length; i++){
+            System.out.print(array[i]+" ");
+        }
+        System.out.print("]\n");
     }
 
 
-    // 数组 +=
-    public static void arrayAddEqual(double[] A,double[] B){
-        if(null == A || null == B){
-            logger.error("+= 输入为空！");
-            return ;
+
+    ////*************************数据处理部分**************************
+
+
+     //// This method takes a multinomial (or bernoulli) probability distribution as an input and samples
+    public static int sampleFromDistribution(double[] p){
+        int sample;
+        // cumulate multinomial parameters
+        for (int k = 1; k < p.length; k++) {
+            p[k] += p[k - 1];
         }
-        if(A.length != B.length){
-            logger.error("+= 尺寸不一致！");
+        // scaled sample because of unnormalised p[]
+        double u = Math.random() * p[p.length-1];
+        for (sample = 0; sample < p.length; sample++) {
+            if (u < p[sample])
+                break;
+        }
+        return sample;
+    }
+
+
+
+
+
+
+
+
+
+    //L2归一化,
+    public static void NormalizationL2_Replace(double[]A){
+        if(null == A || A.length == 0) {
+            logger.error("归一化前向量为空，请检查输入");
             return;
         }
-        int len = A.length;
-        for(int i = 0; i < len;++ i){
-            A[i] += B[i];
+        double n = 0 ;
+        for(int dim = 0; dim < A.length; ++dim) {
+            double z = A[dim] ;
+            n += z * z ;
+        }
+        n = Math.sqrt(n) ;
+        n = Math.max(n, 1e-12) ;
+        for(int dim = 0; dim < A.length; ++dim) {
+            A[dim] /= n ;
         }
     }
-    // 数组加法
-    public double[]  arrayAdd(double[] A,double[] B){
-
-        if(null == A || null == B){
-            logger.error("+= 输入为空！");
+    public static double[] NormalizationL2(double[]A){
+        if(null == A || A.length == 0) {
+            logger.error("归一化前向量为空，请检查输入");
             return null;
         }
-        if(A.length != B.length){
-            logger.error("+= 尺寸不一致！");
-            return null;
+        double[] res = new double[A.length];
+        double n = 0 ;
+        for(int dim = 0; dim < A.length; ++dim) {
+            double z = A[dim] ;
+            n += z * z ;
+        }
+        n = Math.sqrt(n) ;
+        n = Math.max(n, 1e-12) ;
+        for(int dim = 0; dim < A.length; ++dim) {
+            res[dim] = A[dim] / n ;
+        }
+        return res;
+    }
+    public static void NormalizationL2_Replace(double[][]A){
+        if(null == A || A.length == 0 || A[0].length == 0) {
+            logger.error("归一化前向量为空，请检查输入");
+            return;
+        }
+        int dimension = A[0].length;
+        for(int i_d = 0; i_d < A.length; ++i_d){
+            if(A[i_d].length != dimension){
+                logger.error("维度不一致！");
+                return;
+            }
+            double n = 0 ;
+            for(int dim = 0; dim < dimension; ++dim) {
+                double z = A[i_d][dim] ;
+                n += z * z ;
+            }
+            n = Math.sqrt(n) ;
+            n = Math.max(n, 1e-12) ;
+            for(int dim = 0; dim < dimension; ++dim) {
+                A[i_d][dim] /= n ;
+            }
         }
 
-        int len = A.length;
-        double []result = new double[len];
-        for(int i = 0; i < len;++ i){
-            result[i] = A[i] + B[i];
+
+    }
+    public static double[][] NormalizationL2(double[][]A){
+        if(null == A || A.length == 0 || A[0].length == 0) {
+            logger.error("归一化前向量为空，请检查输入");
+            return null;
         }
-        return result;
+        int dimension = A[0].length;
+        double [][] res = new double[A.length][dimension];
+        for(int i_d = 0; i_d < A.length; ++i_d){
+            if(A[i_d].length != dimension){
+                logger.error("维度不一致！");
+                return null;
+            }
+            double n = 0 ;
+            for(int dim = 0; dim < dimension; ++dim) {
+                double z = A[i_d][dim] ;
+                n += z * z ;
+            }
+            n = Math.sqrt(n) ;
+            n = Math.max(n, 1e-12) ;
+            for(int dim = 0; dim < dimension; ++dim) {
+                res[i_d][dim] = A[i_d][dim] / n ;
+            }
+        }
+        return  res;
+    }
+
+    //L1归一化,
+    public static void NormalizationL1_Replace(double[]A){
+        if(null == A || A.length == 0) {
+            logger.error("归一化前向量为空，请检查输入");
+            return;
+        }
+        double n = 0 ;
+        for(int dim = 0; dim < A.length; ++dim) {
+            n += Math.abs(A[dim]) ;
+        }
+        n = Math.max(n, 1e-12) ;
+        for(int dim = 0; dim < A.length; ++dim) {
+            A[dim] /= n ;
+        }
+    }
+    public static double[] NormalizationL1(double[]A){
+        if(null == A || A.length == 0) {
+            logger.error("归一化前向量为空，请检查输入");
+            return null;
+        }
+        double[] res = new double[A.length];
+        double n = 0 ;
+        for(int dim = 0; dim < A.length; ++ dim) {
+            n += Math.abs(A[dim]) ;
+        }
+        n = Math.max(n, 1e-12) ;
+        for(int dim = 0; dim < A.length; ++ dim) {
+            res[dim] = A[dim] / n ;
+        }
+        return res;
+    }
+    public static void NormalizationL1_Replace(double[][]A){
+        if(null == A || A.length == 0 || A[0].length == 0) {
+            logger.error("归一化前向量为空，请检查输入");
+            return;
+        }
+        int dimension = A[0].length;
+        for(int i_d = 0; i_d < A.length; ++i_d){
+            if(A[i_d].length != dimension){
+                logger.error("维度不一致！");
+                return;
+            }
+            double n = 0 ;
+            for(int dim = 0; dim < dimension; ++dim) {
+                n += Math.abs(A[i_d][dim]) ;
+            }
+            n = Math.max(n, 1e-12) ;
+            for(int dim = 0; dim < dimension; ++dim) {
+                A[i_d][dim] /= n ;
+            }
+        }
+
+
+    }
+    public static double[][] NormalizationL1(double[][]A){
+        if(null == A || A.length == 0 || A[0].length == 0) {
+            logger.error("归一化前向量为空，请检查输入");
+            return null;
+        }
+        int dimension = A[0].length;
+        double [][] res = new double[A.length][dimension];
+        for(int i_d = 0; i_d < A.length; ++i_d){
+            if(A[i_d].length != dimension){
+                logger.error("维度不一致！");
+                return null;
+            }
+            double n = 0 ;
+            for(int dim = 0; dim < dimension; ++dim) {
+                n += Math.abs(A[i_d][dim] );
+            }
+            n = Math.max(n, 1e-12) ;
+            for(int dim = 0; dim < dimension; ++dim) {
+                res[i_d][dim] = A[i_d][dim] / n ;
+            }
+        }
+        return  res;
+    }
+
+    //归一化到矩阵中的最小值与最大值之间
+    public static double[][] normalizeFeatures(double[][] mat){
+        double[][] newMat= new double[mat.length][mat[0].length];
+        double[] minVals= new double[mat[0].length];
+        double[] maxVals= new double[mat[0].length];
+        for(int n=0; n<mat[0].length; n++){
+            minVals[n]=Double.POSITIVE_INFINITY;
+            maxVals[n]=Double.NEGATIVE_INFINITY;
+        }
+        for(int i=0; i<mat.length; i++){
+            for(int n=0; n<mat[0].length; n++){
+                if(mat[i][n]<minVals[n]){
+                    minVals[n]= mat[i][n];
+                }
+                if(mat[i][n]>maxVals[n]){
+                    maxVals[n]= mat[i][n];
+                }
+            }
+        }
+
+        for(int i=0; i<mat.length; i++){
+            for(int n=0; n<mat[0].length; n++){
+                if(maxVals[n] == minVals[n])
+                    newMat[i][n]= 1;
+                else
+                    newMat[i][n] = (mat[i][n] - minVals[n]) /
+                            (maxVals[n] - minVals[n]);
+            }
+        }
+		/*
+		 value = (vals[j] - m_MinArray[j]) /
+	      (m_MaxArray[j] - m_MinArray[j]) * m_Scale + m_Translation;
+		 */
+        return newMat;
+    }
+    ///将数据限定在min/max之间并归一化Scales an array of real values to the range [min,max]
+    public static double[] scaleData(double[] input,double min, double max){
+        // find the max and min values of the array
+        double originalMin = 10000,originalMax= 0;
+        double[] output = new double[input.length];
+        for(int i=0; i < input.length; i++){
+            if(input[i] < originalMin){
+                originalMin= input[i];
+            }
+            if(input[i] > originalMax){
+                originalMax= input[i];
+            }
+            //System.out.println(input[i]);
+        }
+        for(int i=0; i<input.length; i++){
+            output[i]=(((max-min)/(originalMax-originalMin+0.00001))*(input[i]-originalMin))+min;
+        }
+        return output;
+    }
+    public static double[] scaleData(double[] input,double originalMin, double originalMax, double targetMin, double targetMax){
+        double[] output= new double[input.length];
+        //System.out.println(min+","+max+","+originalMin+","+originalMax);
+        for(int i=0; i<input.length; i++){
+            output[i]=(((targetMax-targetMin)/(originalMax-originalMin+0.00001))*(input[i]-originalMin))+targetMin;
+            //System.out.println(input[i]+","+output[i]);
+        }
+        return output;
     }
 
 
