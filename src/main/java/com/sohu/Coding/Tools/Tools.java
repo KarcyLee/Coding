@@ -1,6 +1,6 @@
 package com.sohu.Coding.Tools;
 /**
- * Created by pengli211286 on 2016/5/16.
+ * Created by KarlLee on 2016/5/16.
  */
 
 import java.io.BufferedReader;
@@ -27,13 +27,15 @@ import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 import org.math.array.util.Sorting;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 //import Jama.Matrix;
 
 
 
 public class Tools {
-
+    private static Logger logger = LoggerFactory.getLogger(Tools.class);
     /** Constant for normal distribution. */
     public static double m_normConst = Math.log(Math.sqrt(2*Math.PI));
 
@@ -784,7 +786,7 @@ public class Tools {
         String newLine= file.readLine();
         int prevId= Integer.parseInt(newLine.split(",")[0].substring(1, maxNumDigits+1));
         int sequenceId=1;
-        while(newLine!=null && !newLine.isEmpty()){
+        while(newLine != null && !newLine.isEmpty()){
             String token= newLine.split(",")[0];
             int currId= Integer.parseInt(token.substring(1, maxNumDigits+1));
             if(currId!=prevId)
@@ -1135,7 +1137,7 @@ public class Tools {
     public static void printArray(double[][] array){
         for(int i=0; i<array.length; i++){
             for(int j=0; j<array[i].length; j++)
-                System.out.print(String.format("%.0f", array[i][j])+"\t");
+                System.out.print(String.format("%.3f", array[i][j])+"\t");
             System.out.print("\n");
         }
     }
@@ -1172,7 +1174,7 @@ public class Tools {
     public static void printArray(double[] array){
         System.out.print("\n[ ");
         for(int i=0; i<array.length; i++){
-            System.out.print(String.format("%.0f", array[i])+"\t");
+            System.out.print(String.format("%.3f", array[i])+"\t");
         }
         System.out.print("]\n");
     }
@@ -1245,7 +1247,7 @@ public class Tools {
             p[k] += p[k - 1];
         }
         // scaled sample because of unnormalised p[]
-        double u = Math.random()*p[p.length-1];
+        double u = Math.random() * p[p.length-1];
         for (sample = 0; sample < p.length; sample++) {
             if (u < p[sample])
                 break;
@@ -1421,5 +1423,44 @@ public class Tools {
 
         return true;
     }
+
+
+    // 数组 +=
+    public static void arrayAddEqual(double[] A,double[] B){
+        if(null == A || null == B){
+            logger.error("+= 输入为空！");
+            return ;
+        }
+        if(A.length != B.length){
+            logger.error("+= 尺寸不一致！");
+            return;
+        }
+        int len = A.length;
+        for(int i = 0; i < len;++ i){
+            A[i] += B[i];
+        }
+    }
+    // 数组加法
+    public double[]  arrayAdd(double[] A,double[] B){
+
+        if(null == A || null == B){
+            logger.error("+= 输入为空！");
+            return null;
+        }
+        if(A.length != B.length){
+            logger.error("+= 尺寸不一致！");
+            return null;
+        }
+
+        int len = A.length;
+        double []result = new double[len];
+        for(int i = 0; i < len;++ i){
+            result[i] = A[i] + B[i];
+        }
+        return result;
+    }
+
+
+
 }
 
