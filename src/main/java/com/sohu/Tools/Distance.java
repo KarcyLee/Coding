@@ -13,6 +13,7 @@ public class Distance {
     private static Logger logger = LoggerFactory.getLogger(Distance.class);
 
     public static double euclideanDistance(double[] p1, double[] p2){
+        checkInput(p1,p2);
         double sum = 0;
         for (int i = 0; i < p1.length; i++) {
             sum += (( p1[i] - p2[i] ) * ( p1[i] - p2[i] ));
@@ -20,6 +21,7 @@ public class Distance {
         return Math.sqrt(sum);
     }
     public static double  MinkowskiDistance(double[] p1, double[] p2,double power){
+        checkInput(p1,p2);
         //欧式距离的母体，欧式距离中power为2
         double sum = 0;
         for (int i = 0; i < p1.length; i++) {
@@ -29,6 +31,7 @@ public class Distance {
     }
 
     public static double ManhattanDistance(double[] p1, double[] p2) {
+        checkInput(p1,p2);
         double result = 0.0;
         for (int i = 0; i < p1.length; i++) {
             result += Math.abs(p2[i] - p1[i]);
@@ -36,10 +39,12 @@ public class Distance {
         return result;
     }
     public static double CosineDistance(double[] p1, double[] p2){
+        checkInput(p1,p2);
         return 1 - CosineSimilarity(p1,p2);
     }
     public static double WeightedCosineDistance(double[] vector1, double[] vector2, double[] weights){
         //1 - (sum(X1.*W*X2)/((sum(X1.*X1))^(1/2)*(sum(X2.*X2))^(1/2)))
+        checkInput(vector1,vector2);
         double cosineDist=0;
         double numerator=0, denominator1=0, denominator2=0;
         for(int index=0; index < vector1.length; index++){
@@ -60,9 +65,11 @@ public class Distance {
     }
 
     public static double RBFDistance (double[] p1, double[] p2){
+        checkInput(p1,p2);
         return 1 - RBFSimilarity(p1,p2);
     }
     public static double ChebychevDistance (double[] p1, double[] p2){
+        checkInput(p1,p2);
         double totalMax = 0.0;
         for (int i = 0; i < p1.length; i++) {
             totalMax = Math.max(totalMax, Math.abs(p1[i] - p2[i]));
@@ -71,9 +78,11 @@ public class Distance {
 
     }
     public static double JaccardIndexDistance (double[] p1, double[] p2){
+        checkInput(p1,p2);
         return 1 - JaccardSimilarity(p1,p2);
     }
     public static double SpearmanFootruleDistance(double[] p1, double[] p2){
+        checkInput(p1,p2);
         long k = p1.length;
         long denom;
         if(k % 2 == 0)
@@ -87,18 +96,19 @@ public class Distance {
         }
         return 1.0 - (sum / ((double) denom));
     }
-
-    //计算KL散度（相对熵）：当两个随机分布相同时，其相对熵为0.当两个随机分布的差别增加时，器相对熵也增加
-    public static double KLDivergence(double[] vector1, double[] vector2){
+    public static double KLDivergence(double[] p1, double[] p2){
+        //计算KL散度（相对熵）：当两个随机分布相同时，其相对熵为0.
+        // 当两个随机分布的差别增加时，器相对熵也增加
         //(Kullback-Leibler Divergence）也叫做相对熵（Relative Entropy)
-        int numAttributes = vector1.length;
+        checkInput(p1,p2);
+        int numAttributes = p1.length;
         double klDivergence=0;
         // formula for average KL divergence between two distributions is
         // KLDivergence= sigma_i {p_i*log(p_i/*q_i)}
         double p_i,q_i;
         for(int i = 0; i < numAttributes; ++ i){
-            p_i = vector1[i];
-            q_i = vector2[i];
+            p_i = p1[i];
+            q_i = p2[i];
             double firstLogTerm = 0.0;
 
             if(p_i == 0)
@@ -113,9 +123,11 @@ public class Distance {
 
 
     public static double euclideanSimilarity(double[] p1, double[] p2){
+        checkInput(p1,p2);
         return 1.0 / (1 + euclideanDistance(p1,p2));
     }
     public static double CosineSimilarity (double[] p1, double[] p2){
+        checkInput(p1,p2);
         double sumTop = 0;
         double sumOne = 0;
         double sumTwo = 0;
@@ -132,6 +144,7 @@ public class Distance {
         return cosSim;
     }
     public static double PearsonCorrelationCoefficient(double[] p1, double[] p2){
+        checkInput(p1,p2);
         double xy = 0, x = 0, x2 = 0, y = 0, y2 = 0;
         for (int i = 0; i < p1.length; i++) {
             xy += p1[i] * p2[i];
@@ -144,6 +157,7 @@ public class Distance {
         return (xy - (x * y) / n) / Math.sqrt((x2 - (x * x) / n) * (y2 - (y * y) / n));
     }
     public static double RBFSimilarity (double[] p1, double[] p2){
+        checkInput(p1,p2);
         double gamma = 0.01;
         if (p1.equals(p2))
             return 1.0;
@@ -154,6 +168,7 @@ public class Distance {
 //        Specialized similarity that takes the maximum product of two feature values.
 //        If this value is zero, the similarity is undefined. This similarity measure
 //        is used mainly with features extracted from cluster models.
+        checkInput(p1,p2);
         double max = Double.NEGATIVE_INFINITY;
         for (int i = 0; i < p1.length; i++) {
             double v = p1[i] * p2[i];
@@ -166,6 +181,7 @@ public class Distance {
             return Double.NaN;
     }
     public static double JaccardSimilarity (double[] p1, double[] p2){
+        checkInput(p1,p2);
 //        * Jaccard index. The distance between two sets is computed in the following
 //        * way:
 //        *               n1 + n2 - 2*n12
@@ -198,6 +214,7 @@ public class Distance {
     public static double SpearmanRankCorrelation(double[] p1, double[] p2){
 //  * Calculates the Spearman rank correlation of two instances. The value on
 //  * position 0 of the instance should be the rank of attribute 0. And so on and so forth.
+        checkInput(p1,p2);
         long k = p1.length;
         long denom = k * (k * k - 1);
         double sum = 0.0;
@@ -210,6 +227,7 @@ public class Distance {
 
 
     private static double dotProduct(double[] p1, double[] p2) {
+        checkInput(p1,p2);
         double result = 0;
         for (int i = 0; i < p1.length; i++) {
             result += p1[i] * p2[i];
@@ -217,5 +235,17 @@ public class Distance {
         return result;
     }
 
+
+    /////*******************guard******************************
+    private static void checkInput(double[] p1, double[] p2){
+        if(null == p1 || null == p2 || p1.length == 0 || p2.length == 0 ){
+            logger.error("请检查输入！输入为空！");
+            System.exit(1);
+        }
+        if( p1.length != p2.length){
+            logger.error("请检查输入！两向量尺寸不一致！");
+            System.exit(1);
+        }
+    }
 
 }
