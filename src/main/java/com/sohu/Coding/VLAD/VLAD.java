@@ -1,8 +1,8 @@
 package com.sohu.Coding.VLAD;
 
-import com.sohu.Coding.MachineLearning.KMEANS;
+import com.sohu.MachineLearning.KMEANS;
 
-import com.sohu.Coding.Tools.Tools;
+import com.sohu.Tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.org.lidalia.sysoutslf4j.context.LogLevel;

@@ -1,7 +1,7 @@
-package com.sohu.Coding.MachineLearning;
+package com.sohu.MachineLearning;
 
 
-import com.sohu.Coding.Tools.Tools;
+import com.sohu.Tools.Tools;
 import org.apache.commons.math3.distribution.MixtureMultivariateNormalDistribution;
 import org.apache.commons.math3.distribution.MultivariateNormalDistribution;
 import org.apache.commons.math3.distribution.fitting.MultivariateNormalMixtureExpectationMaximization;

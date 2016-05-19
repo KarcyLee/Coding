@@ -1,21 +1,13 @@
-package com.sohu.Coding.Tools;
+package com.sohu.Tools;
 /**
  * Created by KarlLee on 2016/5/16.
  */
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Properties;
 import java.util.Random;
 
 import no.uib.cipr.matrix.DenseCholesky;

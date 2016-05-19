@@ -1,8 +1,8 @@
-package com.sohu.Coding.MachineLearning;
+package com.sohu.MachineLearning;
 
 
-import com.sohu.Coding.Tools.Distance;
-import com.sohu.Coding.Tools.Tools;
+import com.sohu.Tools.Distance;
+import com.sohu.Tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.org.lidalia.sysoutslf4j.context.LogLevel;

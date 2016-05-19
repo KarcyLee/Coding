@@ -1,4 +1,4 @@
-package com.sohu.Coding.Tools;
+package com.sohu.Tools;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
