@@ -1,8 +1,8 @@
-package com.sohu.MachineLearning;
+package com.github.karcylee.MachineLearning;
 
 
-import com.sohu.Tools.Distance;
-import com.sohu.Tools.Tools;
+import com.github.karcylee.Tools.Distance;
+import com.github.karcylee.Tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.org.lidalia.sysoutslf4j.context.LogLevel;
@@ -19,7 +19,7 @@ import java.util.*;
  * Created by KarlLee on 2016/5/18.
  */
 public class KMEANS implements Serializable, Cloneable {
-    private static final long serialVersionUID = 5387925096350970389L;
+    private static final long serialVersionUID = -9175691537395955518L;
     private static Logger logger = LoggerFactory.getLogger(KMEANS.class);
 
     int numCenters = 100; // 指定划分的簇数

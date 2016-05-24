@@ -1,6 +1,6 @@
-package com.sohu.Coding.MeanVector;
+package com.github.karcylee.Coding.MeanVector;
 
-import com.sohu.Tools.Tools;
+import com.github.karcylee.Tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,7 +10,7 @@ import java.io.Serializable;
  * Created by KarlLee on 2016/5/19.
  */
 public class MeanVector implements Serializable, Cloneable{
-    private static final long serialVersionUID = 8901974357535381987L;
+    private static final long serialVersionUID = -63667113535655272L;
     private static Logger logger = LoggerFactory.getLogger(MeanVector.class);
 
     public double[] meanVector_encode(double [][]data){

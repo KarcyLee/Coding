@@ -1,4 +1,4 @@
-package com.sohu.Tools;
+package com.github.karcylee.Tools;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by pengli211286 on 2016/5/18.
+ * Created by karllee on 2016/5/18.
  */
 public class Distance {
     private static Logger logger = LoggerFactory.getLogger(Distance.class);

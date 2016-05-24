@@ -1,4 +1,4 @@
-package com.sohu.Coding.FisherVector;
+package com.github.karcylee.Coding.FisherVector;
 
 /**
  * Created by KarlLee on 2016/5/16.

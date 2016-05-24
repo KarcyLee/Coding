@@ -1,4 +1,4 @@
-package com.sohu.Coding.VLAD;
+package com.github.karcylee.Coding.VLAD;
 
 /**
  * Created by KarlLee on 2016/5/18.

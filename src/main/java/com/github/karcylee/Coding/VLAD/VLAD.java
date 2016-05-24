@@ -1,8 +1,8 @@
-package com.sohu.Coding.VLAD;
+package com.github.karcylee.Coding.VLAD;
 
-import com.sohu.MachineLearning.KMEANS;
+import com.github.karcylee.MachineLearning.KMEANS;
 
-import com.sohu.Tools.Tools;
+import com.github.karcylee.Tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.org.lidalia.sysoutslf4j.context.LogLevel;
@@ -12,18 +12,16 @@ import weka.core.SerializationHelper;
 import java.io.Serializable;
 import java.util.Random;
 
-import static com.sohu.Coding.VLAD.VLADFlag.*;
-
 /**
  * Created by KarlLee on 2016/5/18.
  */
 public class VLAD implements Serializable, Cloneable{
-    private static final long serialVersionUID = 1969698442195388519L;
+    private static final long serialVersionUID = 5378650682517191262L;
     private static Logger logger = LoggerFactory.getLogger(VLAD.class);
     private static String ClassInfo = "Vector of Locally Aggregated Descriptors (VLAD) encoding ";
 
     private KMEANS kmeans;//必须为已经训练好的KMeans，包含中心向量
-    private int flags = VLAD_FLAG_SQUARE_ROOT |VLAD_FLAG_NORMALIZE_COMPONENTS ;
+    private int flags = VLADFlag.VLAD_FLAG_SQUARE_ROOT | VLADFlag.VLAD_FLAG_NORMALIZE_COMPONENTS ;
 
     public VLAD(KMEANS kmeans) {
         this.kmeans = kmeans;
@@ -111,7 +109,7 @@ public class VLAD implements Serializable, Cloneable{
             }
 
             if (clusterMass > 0) {
-                if ((flags & VLAD_FLAG_NORMALIZE_MASS) > 0) {
+                if ((flags & VLADFlag.VLAD_FLAG_NORMALIZE_MASS) > 0) {
                     //Each vector Vk is divided by the total mass of feature_vectors associated to it
                     for(dim = 0; dim < dimension; ++dim) {
                         enc[i_cl * dimension + dim] /= clusterMass ;
@@ -127,7 +125,7 @@ public class VLAD implements Serializable, Cloneable{
             }
 
             //squre root : sign(z)*sqrt(z)
-            if ((flags & VLAD_FLAG_SQUARE_ROOT) > 0) {
+            if ((flags & VLADFlag.VLAD_FLAG_SQUARE_ROOT) > 0) {
                 for(dim = 0; dim < dimension; ++ dim) {
                     double z = enc[i_cl*dimension + dim] ;
                     if (z >= 0) {
@@ -139,7 +137,7 @@ public class VLAD implements Serializable, Cloneable{
             }
 
             // 对每个子向量进行L2归一化
-            if ((flags & VLAD_FLAG_NORMALIZE_COMPONENTS) > 0) {
+            if ((flags & VLADFlag.VLAD_FLAG_NORMALIZE_COMPONENTS) > 0) {
                 double n = 0 ;
                 for(dim = 0; dim < dimension; ++dim) {
                     double z = enc[ i_cl * dimension + dim] ;
@@ -154,7 +152,7 @@ public class VLAD implements Serializable, Cloneable{
         }
 
         //对整个进行L2归一化
-        if ((flags & VLAD_FLAG_NORMALIZE_GLOBAL) > 0) {
+        if ((flags & VLADFlag.VLAD_FLAG_NORMALIZE_GLOBAL) > 0) {
             double n = 0 ;
             for( dim = 0; dim < enc.length; ++dim) {
                 double z = enc[  dim] ;
@@ -189,7 +187,7 @@ public class VLAD implements Serializable, Cloneable{
             //加载
             KMEANS km = (KMEANS) SerializationHelper.read("Kmeans");
             VLAD vlad = new VLAD(km);
-            vlad.setFlags( VLAD_FLAG_NORMALIZE_MASS);
+            vlad.setFlags( VLADFlag.VLAD_FLAG_NORMALIZE_MASS);
             double[] enc = vlad.vlad_encode(data);
             Tools.printArray(enc);
         }catch (Exception e){

@@ -1,7 +1,7 @@
-package com.sohu.MachineLearning;
+package com.github.karcylee.MachineLearning;
 
 
-import com.sohu.Tools.Tools;
+import com.github.karcylee.Tools.Tools;
 import org.apache.commons.math3.distribution.MixtureMultivariateNormalDistribution;
 import org.apache.commons.math3.distribution.MultivariateNormalDistribution;
 import org.apache.commons.math3.distribution.fitting.MultivariateNormalMixtureExpectationMaximization;
@@ -25,7 +25,7 @@ import java.util.Random;
  */
 ////GaussianMixtureModel
 public class GMM implements Serializable, Cloneable{
-    private static final long serialVersionUID = 2361103170130142208L;
+    private static final long serialVersionUID = -7682120916383460840L;
     private static Logger logger = LoggerFactory.getLogger(GMM.class);
 
     double [][]m_Means; //numClusters * dimension

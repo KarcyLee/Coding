@@ -1,7 +1,7 @@
-package com.sohu.Coding.FisherVector;
+package com.github.karcylee.Coding.FisherVector;
 
-import com.sohu.MachineLearning.GMM;
-import com.sohu.Tools.Tools;
+import com.github.karcylee.MachineLearning.GMM;
+import com.github.karcylee.Tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.org.lidalia.sysoutslf4j.context.LogLevel;
@@ -10,7 +10,7 @@ import weka.core.SerializationHelper;
 import java.io.FileNotFoundException;
 import java.util.Random;
 
-import static com.sohu.Coding.FisherVector.FisherVectorFlag.*;
+import static com.github.karcylee.Coding.FisherVector.FisherVectorFlag.*;
 import static java.lang.Math.sqrt;
 
 /**

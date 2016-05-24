@@ -1,4 +1,4 @@
-package com.sohu.Tools;
+package com.github.karcylee.Tools;
 /**
  * Created by KarlLee on 2016/5/16.
  */
